@@ -12,6 +12,4 @@ public class HttpAspect {
     public static void main() {
         System.out.println(12345);
     }
-
-
 }
