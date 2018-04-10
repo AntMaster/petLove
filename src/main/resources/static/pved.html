@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的认证</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+    <!-- 个人认证 -->
+    <div class="page" id="pvedPage">
+        <div class="content ovedPage-content">
+            <div class="list-block">
+                <ul>
+                    <li class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title">已认证手机号</div>
+                            <div class="item-after">{{mobile}}</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/components.js'></script>
+</body>
+
+<script>
+
+    var app = new Vue({
+        el: "#pvedPage",
+        data: {
+            mobile : ''
+        }, mounted: function () {
+            this.init();
+        },
+        methods: {
+            init: function () {
+                this.mobile = GetQueryString("mobile")
+            }
+        }
+    });
+
+
+</script>
+
+</html>

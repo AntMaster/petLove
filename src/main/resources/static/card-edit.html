@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>宠卡</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="libs/swiper/swiper.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+    <div class="page" id="card-edit">
+
+        <!-- tabbar -->
+        <mc-tabbar page="publish"></mc-tabbar>
+        <div class="content cardIndex-content">
+            <div class="card-box center-block">
+                <!-- 层叠效果 -->
+                <div class="stack">
+                    <div class="stack-one"></div>
+                    <div class="stack-two"></div>
+                </div>
+                <!-- 宠卡 -->
+                <div class="card-create">
+                    <!-- 反面 -->
+                    <div class="card-back">
+                        <div class="avatar">
+                            <img :src="cardFormModel.headImgUrl" />
+                            <input class="avatar-upload" type="file" />
+                        </div>
+                        <form class="card-form">
+                            <div class="card-form-item card-name-input">
+                                <input type="text" v-model="cardFormModel.nickName" placeholder="请填写爱宠的名字" />
+                            </div>
+                            <!-- 类别 -->
+                            <div class="card-form-item">
+                                <div class="item-title">类别</div>
+                                <div class="item-input sex-input">
+                                    <span :class="{active:cardFormModel.classifyId == 3}" @click="selectClass(3)">汪</span>
+                                    <span :class="{active:cardFormModel.classifyId == 2}" @click="selectClass(2)">喵</span>
+                                </div>
+                            </div>
+                             <!-- 品种 -->
+                             <div class="card-form-item">
+                                    <div class="item-title">品种</div>
+                                    <div class="item-input">
+                                       <input v-model="varietyName" data-popup=".popup-petVariety" class="open-popup" type="text" placeholder="请选择主子品种">
+                                    </div>
+                                </div>
+                            <!-- 生日 -->
+                            <div class="card-form-item">
+                                <div class="item-title">生日</div>
+                                <div class="item-input">
+                                    <input id="birth-selector" onChange="getBirth" placeholder="请选择爱宠生日" v-model="cardFormModel.birthday.split(' ')[0]" type="text"  data-toggle='date' />
+                                    <!-- <input :model="cardFormModel.Birthday" id="datetime-picker" value="2018-03-05 08:30" id="datetime-picker" class="date-picker" placeholder="还记得爱宠的生日吗" /> -->
+                                </div>
+                            </div>
+                            <!-- 性别 -->
+                            <div class="card-form-item">
+                                <div class="item-title">性别</div>
+                                <div class="item-input sex-input">
+                                    <span :class="{active:cardFormModel.sex}" @click="selectSex(1)">公</span>
+                                    <span :class="{active:!cardFormModel.sex}" @click="selectSex(0)">母</span>
+                                </div>
+                            </div>
+                            <!-- 是否绝育 -->
+                            <div class="card-form-item">
+                                <div class="item-title">是否绝育</div>
+                                <div class="item-input sex-input">
+                                    <span :class="{active:cardFormModel.contraception}" @click="selectContraceptionState(1)">已绝育</span>
+                                    <span :class="{active:!cardFormModel.contraception}" @click="selectContraceptionState(0)">未绝育</span>
+                                </div>
+                            </div>
+                            <!-- 小特点 -->
+                            <div class="card-form-item">
+                                <div class="item-title">小特点</div>
+                                <div class="item-input" style="width:100%;">
+                                    <input  style="width:100%;" v-model="cardFormModel.description" placeholder="主子有啥特点，比如爱吃肉..." />
+                                </div>
+                            </div>
+                            <!-- 芯片号 -->
+                            <div class="card-form-item">
+                                <div class="item-title">芯片号</div>
+                                <div class="item-input">
+                                    <input v-model="cardFormModel.chipNo" placeholder="（选填）" />
+                                </div>
+                            </div>
+                            <!-- btn -->
+                            <div class="card-form-btn center-block" @click="submit">填好啦~</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-petVariety">
+            <div class="variety-box">
+                <ul class="commonList-row">
+                    <li v-if="index < 12" v-for="(item,index) in varietyArr" @click="selectVarietyArr(item.id,item.name)"
+                        class="flex-center close-popup">
+                        <div class="avatar">
+                            <img :src="item.icon"/>
+                        </div>
+                        <div class="name">{{item.name}}</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="cancel-btn">
+                <div class="btn flex-center close-popup">取消</div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type="text/javascript" src='js/components.js'></script>
+    <script type="text/javascript" src='js/card-edit.js'></script>
+</body>
+
+</html>

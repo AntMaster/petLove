@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>宠卡</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+    <div class="page" id="cardListPage">
+        <!-- tabbar -->
+        <mc-tabbar page="card"></mc-tabbar>
+        <div class="content cardListPage-content">
+            <ul class="petCard-list">
+                <li v-for="(item, index) in petArr">
+                    <a class="petCard-item"  :class="{dogCardItem:item.classifyId == 3}"  style="background-color: #fab11b;" @click="goPetAlbum(item.id)">
+                        <!-- 授权 -->
+                        <div class="author">武汉市小动物保护协会监制</div>
+                        <!-- 昵称 -->
+                        <div class="name">
+                            {{item.nickName}}
+                        </div>
+                        <!-- 类别 -->
+                        <div class="classify" style="width: 3.5rem;"  :class="{sexMale:item.sex == 1, sexFemale:item.sex == 0}">
+                            <!--<span class="icon"></span> {{item.classifyId == 2 ? "喵" : "汪"}}-->
+                                 <span class="icon">
+                                     <img :src="item.sex == 1 ? 'img/icon/card-male.png' : 'img/icon/card-female.png'" alt="">
+                                </span> {{item.varietyName}}
+                        </div>
+                        <div class="info-box">
+                            <div class="info-item">
+                                <img src="img/icon/card-jueyu.png" class="icon" />
+                                <span>{{item.contraception ==  1 ? "已绝育" : "未绝育" }}</span>
+                            </div>
+                            <div class="info-item">
+                                <img src="img/icon/card-birth.png" class="icon" />
+                                <span>{{item.birthday.split(" ")[0]}}</span>
+                            </div>
+                            <div class="info-item">
+                                <img :src="item.classifyId == 2 ? 'img/icon/card-info-cat.png' : 'img/icon/card-info-dog.png'" class="icon" />
+                                <span>{{item.description}}</span>
+                            </div>
+                        </div>
+                        <!-- 头像 -->
+                        <div class="avatar">
+                            <img :src="item.headImgUrl" />
+                        </div>
+                        <!-- 芯片号 -->
+                        <div class="chip-num chip-num-cat">
+                            芯片号：{{item.chipNo ? item.chipNo : "未知" }}
+                        </div>
+                        <!-- icon x 4 -->
+                        <div class="petCard-icon petCard-icon-1">
+                            <img :src="item.classifyId == 2 ? 'img/icon/card-cat-1.png' : 'img/icon/card-dog-1.png'">
+                        </div>
+                        <div class="petCard-icon petCard-icon-2">
+                            <img :src="item.classifyId == 2 ? 'img/icon/card-cat-2.png' : 'img/icon/card-dog-2.png'">
+                        </div>
+                        <div class="petCard-icon petCard-icon-3">
+                            <img :src="item.classifyId == 2 ? 'img/icon/card-cat-3.png' : 'img/icon/card-dog-3.png'">
+                        </div>
+                        <div class="petCard-icon petCard-icon-4">
+                            <img :src="item.classifyId == 2 ? 'img/icon/card-cat-4.png' : 'img/icon/card-dog-4.png'">
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- 新增宠卡 -->
+            <!--<a href="card-index.html" class="addPetCard-btn external">新增宠卡</a>-->
+            <a :href="'card-index.html?openid='+ params" class="addPetCard-btn external">
+                <img class="back1" src="img/icon/card-add-1.png" alt="">
+                <img class="back2" src="img/icon/card-add-2.png" alt="">
+                再添加一张宠卡
+            </a>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/components.js'></script>
+    <script type='text/javascript' src='js/card-list.js'></script>
+</body>
+</html>

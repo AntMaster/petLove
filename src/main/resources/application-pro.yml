@@ -1,0 +1,46 @@
+server:
+  context-path: /pethome
+
+spring:
+  profiles:
+    active: pro
+#############################################################
+  datasource:
+    url: jdbc:sqlserver://118.31.9.90:1433;DatabaseName=PawLove
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: petin520
+################################################################################
+  jpa:
+    show-sql: true
+################################################################################
+  jackson:
+    default-property-inclusion: non_null
+################################################################################
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+################################################################################
+
+######Custom Configuration
+web:
+  upload-path: D:/petlove/upload/
+  sms:
+    account: whlehuike
+    password: Tch147258
+    url: http://222.73.117.156/msg/HttpBatchSendSM
+
+wechat:
+  mpAppId: wx148b22b07fc8786a
+  mpAppSecret: 4bc45d67e388ccff8eb4e8b8cadfbd24
+  myAppToken: petin2017
+  myAppEncodingAESKey: VEmNUaMXs49VdApWOI2XbJpOThQqV5gi6b1A37ZMWrq
+  myAppMsgTemplateId: O3TKJTZYpJXCqcwlA1Hm6V9t2rgERR4QJVPg5oQBx7w
+
+projectUrl:
+  wechatMpAuthorize: http://act.petin.com.cn
+  petHome: http://act.petin.com.cn
+
+

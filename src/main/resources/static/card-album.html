@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>宠卡详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="libs/swiper/swiper.min.css">
+    <link rel="stylesheet" href="libs/animate/animate.min.css" />
+    <link rel="stylesheet" href="libs/animate/wow.min.js">
+    <link rel="stylesheet" href="dest/all.min.css">
+    <link rel="stylesheet" type="text/css" href="dest/card-info.css" />
+</head>
+
+<body>
+    <div class="page" id="card-info">
+        <div class="mask"></div>
+        <div class="content cardPage-content">
+            <!--card预留-->
+            <a class="petCard-item" :class="{dogCardItem:classifyId == 3}" style="background-color: #5adacd;">
+                <!-- 授权 -->
+                <div class="author">武汉市小动物保护协会监制</div>
+                <!-- 昵称 -->
+                <div class="name">
+                    <span>{{pet.nickName}}</span>
+                    <img @click="toEdit" src="img/icon/album-nameEdit.jpg"/>
+                </div>
+                <!-- 类别 -->
+                <div class="classify" style="width: 3.5rem;"  :class="{sexMale:pet.sex == 1, sexFemale:pet.sex == 0}">
+                    <span class="icon">
+                        <img :src="pet.sex == 1 ? 'img/icon/card-male.png' : 'img/icon/card-female.png'" alt="">
+                    </span> {{pet.varietyName}}
+                </div>
+                <div class="info-box">
+                    <div class="info-item">
+                        <img src="img/icon/card-jueyu.png" class="icon" />
+                        <span>{{pet.contraception ==  1 ? "已绝育" : "未绝育" }}</span>
+                    </div>
+                    <div class="info-item">
+                        <img src="img/icon/card-birth.png" class="icon" />
+                        <span>{{pet.birthday}}</span>
+                    </div>
+                    <div class="info-item">
+                        <img :src="classifyId == 2 ? 'img/icon/card-info-cat.png' : 'img/icon/card-info-dog.png'" class="icon" />
+                        <span>{{pet.description}}</span>
+                    </div>
+                </div>
+                <!-- 头像 -->
+                <div class="avatar animated" @click="play(petType)">
+                    <img :src="pet.headImgUrl" />
+                </div>
+                <!-- 文字 -->
+                <div class="petText animated" style="display:none;">{{petText}}</div>
+                <!-- 芯片号 -->
+                <div class="chip-num chip-num-dog">
+                    芯片号：{{pet.chipNo ? pet.chipNo : "未知"}}
+                </div>
+                <!-- icon x 4 -->
+                <!-- icon x 4 -->
+                <div class="petCard-icon petCard-icon-1">
+                    <img :src="classifyId == 2 ? 'img/icon/card-cat-1.png' : 'img/icon/card-dog-1.png'">
+                </div>
+                <div class="petCard-icon petCard-icon-2">
+                    <img :src="classifyId == 2 ? 'img/icon/card-cat-2.png' : 'img/icon/card-dog-2.png'">
+                </div>
+                <div class="petCard-icon petCard-icon-3">
+                    <img :src="classifyId == 2 ? 'img/icon/card-cat-3.png' : 'img/icon/card-dog-3.png'">
+                </div>
+                <div class="petCard-icon petCard-icon-4">
+                    <img :src="classifyId == 2 ? 'img/icon/card-cat-4.png' : 'img/icon/card-dog-4.png'">
+                </div>
+            </a>
+            <!--按钮标题-->
+            <div class="pet-album">
+                <div class="album-title">
+                    <span class="album-title-name">{{pet.nickName}}的相册</span>
+                    <span class="album-title-btn"  @click="manageAlbum">{{ petAlbums.length != 0 ? manageButtonText : ''}}</span>
+                </div>
+            </div>
+            <!--相册列表-->
+            <div class="album-list">
+                <div class="album-body">
+                    <div class="album-pic" style="background-image:none;">
+                    </div>
+                    <div class="album-new">
+                        <p>+</p>
+                        <p>新建相册</p>
+                    </div>
+                </div>
+                <!--下面是重复的相册-->
+                <div v-for="(item,index) in petAlbums" class="album-body">
+                    <!--这是封面图-->
+                    <div class="album-pic" v-on:click="clickAlbum(index,item.id)" >
+                        <img v-show="item.coverPath" :src="item.coverPath" alt="">
+                        <div class="album-del" v-show="isManageModel">
+                            <img :src="albumConfArr[index].icon" alt="" />
+                        </div>
+                    </div>
+                    <!--这是名字和张数-->
+                    <div class="album-info">
+                        <p class="album-name">{{item.name}}</p>
+                        <p class="album-num">{{item.photoCount}}张</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="del-mask"  v-show = "isManageModel" :class="{delActive:selectedAlbumList.length != 0}">
+            删除相册
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/card-album.js'></script>
+</body>
+
+</html>

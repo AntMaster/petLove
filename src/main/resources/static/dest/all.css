@@ -1,0 +1,1571 @@
+/* 全局变量 */
+
+/* 自定义组件样式 */
+
+.nav {
+    width: 9rem;
+    margin-top: .75rem;
+    height: 1.5rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.nav .nav-item {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+    }
+
+.nav .nav-item .nav-item-title {
+            height: calc(100% - 2px);
+            font-size: .75rem;
+            color: #6a5651;
+        }
+
+.nav .nav-item .nav-item-indicator {
+            height: 2px;
+            width: 1.25rem;
+        }
+
+.nav .active .nav-item-title {
+            color: #fd797b;
+        }
+
+.nav .active .nav-item-indicator {
+            background-color: #fd797b;
+        }
+
+.mc-tabbar {
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    height: 2.45rem;
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 100;
+    -webkit-box-shadow: 0px 0px 6px 0px rgba(255, 181, 181, 0.32);
+            box-shadow: 0px 0px 6px 0px rgba(255, 181, 181, 0.32);
+}
+
+.mc-tabbar .active span {
+            color: #fd797b !important;
+        }
+
+.mc-tabbar .left, .mc-tabbar .right {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: calc((100% - 4.75rem)/2);
+        height: 100%;
+    }
+
+.mc-tabbar .left .item, .mc-tabbar .right .item {
+            width: 50%;
+            height: 100%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                    flex-direction: column;
+        }
+
+.mc-tabbar .left .item .icon img, .mc-tabbar .right .item .icon img {
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    margin-bottom: 4px;
+                }
+
+.mc-tabbar .left .item span, .mc-tabbar .right .item span {
+                font-size: .6rem;
+                color: #6a5651;
+                position: absolute;
+                bottom: 0;
+            }
+
+.mc-tabbar .center {
+        width: 4.75rem;
+        height: 100%;
+    }
+
+.mc-tabbar .center .action {
+            top: -1.6rem;
+            height: calc(100% + 1.6rem);
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                    flex-direction: column;
+        }
+
+.mc-tabbar .center .action img {
+                width: 3rem;
+                height: 3rem;
+                border-radius: 1.5rem;
+                border: .3rem white solid;
+                background: white;
+                margin-bottom: 4px;
+                -webkit-box-shadow: 0px 0px 6px 0px rgba(255, 181, 181, 0.52);
+                        box-shadow: 0px 0px 6px 0px rgba(255, 181, 181, 0.52);
+            }
+
+.mc-tabbar .center .action span {
+                font-size: .6rem;
+                color: #6a5651;
+                position: absolute;
+                bottom: 0;
+            }
+
+.author-modal .avatar {
+        width: 3.5rem;
+        height: 3.5rem;
+        margin: 0 auto;
+    }
+
+.author-modal .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 1.75rem;
+        }
+
+.author-modal .modal-msg {
+        margin-top: 1rem;
+        padding: 0 1.5rem;
+        color: #333333;
+        font-size: .75rem;
+        position: relative;
+    }
+
+.author-modal .modal-btn {
+        display: block;
+        width: 11.5rem;
+        color: white;
+        line-height: 1.8rem;
+        height: 1.8rem;
+        font-size: .8rem;
+        text-align: center;
+        height: 1.8rem;
+        margin-top: 2.4rem;
+        background-color: #fd797b;
+        border-radius: .25rem;
+    }
+
+.author-modal .close {
+        position: absolute;
+        top: .75rem;
+        right: .75rem;
+        width: .75rem;
+        height: .75rem;
+    }
+
+.author-modal .close img {
+            width: 100%;
+            height: 100%;
+        }
+
+.author-modal .author-item {
+        background-color: #f3f3f3;
+        border-radius: .2rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        height: 5.5rem;
+        margin-top: 1rem;
+    }
+
+.author-modal .author-item .author-item-inner {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+.author-modal .author-item .author-item-inner img {
+                width: 3.5rem;
+                height: 3.5rem;
+                border-radius: 1.75rem;
+                margin-right: 1.3rem;
+                -ms-flex-negative: 0;
+                    flex-shrink: 0;
+            }
+
+.author-modal .author-item .author-item-inner span {
+                color: #000000;
+                font-size: .9rem;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+                max-width: 3.6rem;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+            }
+
+/* 覆盖l7样式 */
+
+.bar+.picker-items {
+    background: white;
+    font-size: .9rem;
+}
+
+.bar .button.pull-right {
+    color: #8796ec;
+    font-size: .75rem;
+}
+
+.picker-modal .bar .title {
+    background: white;
+    font-size: .75rem;
+}
+
+.card-header .facebook-name {
+        color: #333333;
+        font-size: .75rem;
+    }
+
+.card-header .facebook-date {
+        color: #999999;
+        font-size: .6rem;
+    }
+
+.card-header .facebook-avatar img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 1rem;
+        }
+
+.card-content {
+    color: #666666;
+    font-size: .7rem;
+    padding-left: 2.7rem;
+}
+
+.card-content .card-content-img {
+        padding-right: .75rem;
+    }
+
+.card-content .card-content-img img {
+            width: 100%;
+        }
+
+.facebook-card .card-footer {
+    background-color: white;
+}
+
+.modal-inner {
+    background-color: white;
+}
+
+.modal-button {
+    background-color: white;
+}
+
+/* 公共样式 */
+
+.item-input input {
+    border: none;
+}
+
+[v-cloak] {
+    display: none !important;
+}
+
+.page {
+    background-color: #f3f3f3;
+}
+
+.mask {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: #000000;
+    opacity: 0.3;
+    position: absolute;
+    display: none;
+}
+
+.mask-white {
+    background-color: #f8f8f8;
+    display: block;
+    height: 100%;
+    opacity: 1;
+    z-index: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+    -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to
+/* .fade-leave-active below version 2.1.8 */
+
+{
+    opacity: 0;
+}
+
+.badge {
+    background-color: #e94d47;
+    width: .6rem;
+    border-radius: 100%;
+    margin-left: .5rem;
+    color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-itmes: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.center-block {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.flex-center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.commonList-row {
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.commonList-row li {
+        list-style: none;
+    }
+
+/* 页面样式 */
+
+/* -------首页------ */
+
+.index-content, .searchPage-content, .msgPage-content, .interact-content {
+    margin-bottom: 2.45rem;
+}
+
+.index-banner {
+    padding-top: .75rem;
+}
+
+.index-banner .swiper-container {
+        height: 200px;
+    }
+
+.index-banner .swiper-container .swiper-slide {
+            background-color: white;
+            width: 82.6% !important;
+            height: 7.5rem;
+            margin: 0 2%;
+            border-radius: .5rem;
+        }
+
+.index-banner .swiper-container .swiper-slide-active {
+            -webkit-box-shadow: 0px 2px 40px 0px #ffb380;
+                    box-shadow: 0px 2px 40px 0px #ffb380;
+        }
+
+.index-banner .swiper-container .swiper-pagination {
+            bottom: 10px !important;
+        }
+
+.index-banner .swiper-container .swiper-pagination-bullet {
+            background-color: #f1cecf;
+        }
+
+.index-banner .swiper-container .swiper-pagination-bullet-active {
+            background-color: #fd797b;
+            width: 20px;
+            border-radius: 4px;
+        }
+
+.index-nav {
+    width: 67%;
+    margin-top: 1rem;
+    color: #6a5651;
+    font-size: .7rem;
+}
+
+.index-nav ul {
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+    }
+
+.index-nav ul li {
+            height: 1.25rem;
+        }
+
+.index-nav ul .active {
+            color: #fd797b;
+            border-bottom: 2px solid #fd797b;
+            border-radius: 2px;
+        }
+
+.index-list .card {
+        background-color: #ffffff;
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 181, 181, 0.32);
+                box-shadow: 0px 0px 10px 0px rgba(255, 181, 181, 0.32);
+        border-radius: 10px;
+    }
+
+.index-list .card .card-tag {
+            position: absolute;
+            top: .5rem;
+            right: .5rem;
+            text-align: center;
+        }
+
+.index-list .card .card-tag .tag-title {
+                width: 3rem;
+                height: .9rem;
+                background-color: #fd797b;
+                border-radius: .45rem;
+                color: white;
+            }
+
+.index-list .card .card-tag .xunzhu {
+                background-color: #7ad9da;
+            }
+
+.index-list .card .card-tag .found {
+                background-color: #bdb2b1;
+            }
+
+.index-list .card .card-tag .tag-img {
+                margin: 0 auto;
+                width: 1.5rem;
+            }
+
+.index-list .card .card-footer {
+            margin-top: .75rem;
+            border-radius: 0 0 10px 10px;
+            border-top: 1px solid #e5e5e5;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            color: #999999;
+        }
+
+.index-list .card .card-footer .link {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+            }
+
+.index-list .card .card-footer .link img {
+                    width: .75rem;
+                    margin-right: .2rem;
+                }
+
+/* ------搜索页------ */
+
+.bm-view {
+    width: 100%;
+    height: 100%;
+}
+
+.searchPage-content .marker-card {
+        left: 4%;
+        width: 92%;
+        height: 9.4rem;
+        position: absolute;
+        bottom: 1.5rem;
+        background-color: #ffffff;
+        border-radius: .5rem;
+        -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.24);
+                box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.24);
+        z-index: 100;
+        padding: .75rem .5rem;
+        display: none;
+    }
+
+.searchPage-content .marker-card .card-info {
+            float: left;
+            width: calc(100% - 6rem);
+            position: relative;
+            height: 100%;
+        }
+
+.searchPage-content .marker-card .card-info .tag {
+                background-color: #fd797b;
+                border-radius: .45rem;
+                color: white;
+                height: .9rem;
+                width: 3rem;
+                margin-bottom: .7rem;
+                font-size: .6rem;
+            }
+
+.searchPage-content .marker-card .card-info .nickname, .searchPage-content .marker-card .card-info .date {
+                color: #666666;
+                font-size: .68rem;
+            }
+
+.searchPage-content .marker-card .card-info .user-info {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+            }
+
+.searchPage-content .marker-card .card-info .user-info .avatar img {
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        border-radius: .75rem;
+                    }
+
+.searchPage-content .marker-card .card-info .user-info .info {
+                    padding-left: .4rem;
+                    font-size: .68rem;
+                }
+
+.searchPage-content .marker-card .card-info .user-info .info .nickname {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+.searchPage-content .marker-card .card-img-location {
+            float: right;
+            width: 6rem;
+            height: 100%;
+            position: relative;
+        }
+
+.searchPage-content .marker-card .card-img-location .img-box {
+                position: relative;
+                text-align: right;
+                width: 6rem;
+                height: 6rem;
+            }
+
+.searchPage-content .marker-card .card-img-location .img-box .pet-img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+.searchPage-content .marker-card .card-img-location .img-box .tag {
+                    position: absolute;
+                    top: 0;
+                    left: -.7rem;
+                    width: 1.4rem;
+                }
+
+.searchPage-content .marker-card .card-img-location .location-box {
+                position: absolute;
+                bottom: 0;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+            }
+
+.searchPage-content .marker-card .card-img-location .location-box img {
+                    width: .6rem;
+                    margin-right: .2rem;
+                }
+
+.searchPage-content .marker-card .card-img-location .location-box span {
+                    color: #999999;
+                    font-size: .6rem;
+                }
+
+.searchPage-content .search-box {
+        width: 92%;
+        position: absolute;
+        top: .75rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        left: 4%;
+        height: 2rem;
+        background: white;
+        z-index: 100;
+        -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.08);
+                box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.08);
+        border-radius: 4px;
+    }
+
+.searchPage-content .search-box input {
+            height: 100%;
+            width: 85%;
+            font-size: .7rem;
+            color: #666666;
+            border: none;
+            padding: .5rem .75rem;
+        }
+
+.searchPage-content .search-box .search-btn {
+            width: 15%;
+            height: 100%;
+            color: #6a5651;
+            font-size: .7rem;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+        }
+
+.searchPage-content .filter {
+        position: absolute;
+        top: 3.5rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        border-radius: .9rem;
+        right: .75rem;
+        z-index: 100;
+        background: white;
+        -webkit-box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
+                box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.15);
+    }
+
+.searchPage-content .filter img {
+            width: 1rem;
+            height: 1rem;
+        }
+
+.filter-draw {
+    background: white;
+}
+
+.filter-draw .title-box {
+        width: 100%;
+        line-height: 2.2rem;
+        height: 2.2rem;
+        background-color: #e5e5e5;
+        color: #999999;
+        font-size: .7rem;
+        padding-left: .6rem;
+    }
+
+.filter-draw .filter-item-box {
+        padding: .75rem .6rem;
+    }
+
+.filter-draw .filter-item-box .filter-item {
+            margin-bottom: 2rem;
+        }
+
+.filter-draw .filter-item-box .filter-item .item-title {
+                color: #666666;
+                font-size: .7rem;
+                margin-bottom: .5rem;
+            }
+
+.filter-draw .filter-item-box .filter-item .item-tags li {
+                    width: 3.6rem;
+                    height: 1.5rem;
+                    background-color: #e5e5e5;
+                    border-radius: .2rem;
+                    color: rgba(102, 102, 102, 0.9);
+                    font-size: .7rem;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-align: center;
+                        -ms-flex-align: center;
+                            align-items: center;
+                    -webkit-box-pack: center;
+                        -ms-flex-pack: center;
+                            justify-content: center;
+                    margin-right: .75rem;
+                }
+
+.filter-draw .filter-item-box .filter-item .item-tags .active {
+                    background-color: #fd797b;
+                    border: solid 2px #6a5551;
+                    color: #6a5651;
+                }
+
+.filter-draw .action-box {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+.filter-draw .action-box div {
+            width: 50%;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+            -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                    justify-content: center;
+            height: 2.15rem;
+            font-size: .7rem;
+        }
+
+.filter-draw .action-box .reset {
+            background-color: #ffb380;
+        }
+
+.filter-draw .action-box .ok {
+            background-color: #fd797b;
+        }
+
+/* ------我的页面------ */
+
+#minePage .volunteer-tag {
+        width: 3.925rem;
+        height: 1.4rem;
+        color: white;
+        background-image: -webkit-gradient(linear, left top, right top, from(#fd797b), to(#e94d47));
+        background-image: linear-gradient(90deg, #fd797b 0%, #e94d47 100%);
+        position: absolute;
+        top: .75rem;
+        right: 0;
+        border-top-left-radius: 0.7rem;
+        border-bottom-left-radius: 0.7rem;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+    }
+
+#minePage .volunteer-tag img {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: .6rem;
+            margin-left: .2rem;
+        }
+
+#minePage .volunteer-tag span {
+            font-size: .65rem;
+            margin-left: .2rem;
+        }
+
+#minePage .list-block {
+        margin: 0;
+    }
+
+#minePage .head .item-media img {
+                border-radius: 1.5rem;
+                width: 3rem;
+            }
+
+#minePage .head .item-title {
+            color: #333333;
+            font-size: .75rem;
+            margin-bottom: .4rem;
+        }
+
+#minePage .head .item-tag {
+            width: 2.15rem;
+            height: .8rem;
+            border-radius: 2px;
+            border: solid 1px #7ad9da;
+            color: #7ad9db;
+            font-size: .6rem;
+        }
+
+#minePage .mine-menu {
+        margin-bottom: .75rem;
+        color: #333333;
+        font-size: .7rem;
+    }
+
+#minePage .mine-menu .item-content {
+            max-height: 2.25rem !important;
+        }
+
+#minePage .mine-menu .item-content .item-title {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align: center;
+                    -ms-flex-align: center;
+                        align-items: center;
+            }
+
+#minePage .mine-menu-title {
+        margin: .75rem 0 0 0;
+        background: white;
+        padding-left: 0.75rem;
+        height: 1.6rem;
+        font-size: .65rem;
+        -webkit-box-pack: left;
+            -ms-flex-pack: left;
+                justify-content: left;
+    }
+
+/* ------我的页面------ */
+
+.taskPage-content .list-block {
+        margin-top: .75rem;
+    }
+
+.taskPage-content .list-block ul {
+            background: none;
+            border: none;
+        }
+
+.taskPage-content .task-card {
+        margin: .7rem .75rem;
+        background: white;
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 181, 181, 0.32);
+                box-shadow: 0px 0px 10px 0px rgba(255, 181, 181, 0.32);
+        border-radius: .5rem;
+        font-size: .7rem;
+    }
+
+.taskPage-content .task-card .item-title, .taskPage-content .task-card .item-subtitle {
+            font-size: .7rem;
+            margin-top: .25rem;
+        }
+
+.taskPage-content .task-card .item-action {
+            position: absolute;
+            width: 3rem;
+            height: 1.2rem;
+            background-color: #fd797b;
+            border-radius: .6rem;
+            color: white;
+            top: 2rem;
+            right: 1.5rem;
+            font-size: .65rem;
+        }
+
+.taskPage-content .task-card .unactive {
+            background-color: #cccccc;
+        }
+
+.quote-box {
+    width: 100%;
+    height: 4rem;
+    background-color: #f1f1f1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.quote-box .avatar {
+        height: 4rem;
+        width: 4rem;
+    }
+
+.quote-box .avatar img {
+            white: 100%;
+            height: 100%;
+        }
+
+.quote-box .info-box {
+        padding-left: .5rem;
+        position: relative;
+        width: 100%;
+    }
+
+.quote-box .info-box .info-item {
+            margin-top: .2rem;
+            color: #999999;
+            font-size: .7rem;
+        }
+
+.quote-box .info-box .at {
+            color: #576b95;
+        }
+
+.quote-box .tag {
+        width: 2rem;
+        height: .9rem;
+        border-radius: .45rem;
+        border: solid 1px #fd797b;
+        color: #fd797b;
+        font-size: .6rem;
+        position: absolute;
+        top: .6rem;
+        right: .75rem;
+    }
+
+/* -------消息页面,互动页面------ */
+
+.msgPage-content .card, .interactPage-content .card, .attentionPage-content .card, .chatPage-content .card {
+        -webkit-box-shadow: none;
+                box-shadow: none;
+    }
+
+.msgPage-content .card .reply-btn, .interactPage-content .card .reply-btn, .attentionPage-content .card .reply-btn, .chatPage-content .card .reply-btn {
+            position: absolute;
+            top: .7rem;
+            right: .75rem;
+            color: #8796ec;
+            font-size: .6rem;
+            z-index: 1000;
+        }
+
+.msgPage-content .card .card-content, .interactPage-content .card .card-content, .attentionPage-content .card .card-content, .chatPage-content .card .card-content {
+            padding: .75rem;
+            padding-top: 0;
+        }
+
+.msgPage-content .card .card-content .card-action-title, .interactPage-content .card .card-content .card-action-title, .attentionPage-content .card .card-content .card-action-title, .chatPage-content .card .card-content .card-action-title {
+                font-size: .6rem;
+            }
+
+.msgPage-content .card .card-content .card-reply, .interactPage-content .card .card-content .card-reply, .attentionPage-content .card .card-content .card-reply, .chatPage-content .card .card-content .card-reply {
+                font-size: .7rem;
+            }
+
+.msgPage-content .card .card-content .reply-list li, .interactPage-content .card .card-content .reply-list li, .attentionPage-content .card .card-content .reply-list li, .chatPage-content .card .card-content .reply-list li {
+                    font-size: .6rem;
+                    color: #666666;
+                    margin-top: .2rem;
+                }
+
+.msgPage-content .card .card-content .reply-list li span, .interactPage-content .card .card-content .reply-list li span, .attentionPage-content .card .card-content .reply-list li span, .chatPage-content .card .card-content .reply-list li span {
+                        color: #576b95;
+                    }
+
+.interactPage-content .card, .chatPage-content .card {
+        margin: .0 0 .75rem 0 !important;
+    }
+
+.attentionPage-content .card {
+        margin: .75rem 0 0 0 !important;
+    }
+
+.modal-reply-input {
+    width: 100%;
+    height: 4rem;
+    margin-top: .5rem;
+}
+
+/*寻宠寻主*/
+
+.fpet-content .publish-btn {
+        width: 80%;
+        margin: .75rem 10%;
+        height: 1.8rem;
+        background-color: #cccccc;
+        border-radius: .25rem;
+        color: white;
+        font-size: .7rem;
+    }
+
+.fpet-content .publish-btn-active {
+        background-color: #fd797b;
+    }
+
+.fpet-content .list-block {
+        margin: .75rem 0 0 0;
+    }
+
+.fpet-content .list-block .item-title {
+            color: #333333;
+            font-size: .7rem;
+            width: 25%;
+        }
+
+.fpet-content .list-block .item-input input, .fpet-content .list-block .item-input select {
+                font-size: .7rem;
+            }
+
+.fpet-content .list-block .item-input input::-webkit-input-placeholder {
+                color: #cccccc;
+            }
+
+.fpet-content .list-block .item-input input::-moz-placeholder {
+                /* Mozilla Firefox 19+ */
+                color: #cccccc;
+            }
+
+.fpet-content .list-block .item-input input:-moz-placeholder {
+                /* Mozilla Firefox 4 to 18 */
+                color: #cccccc;
+            }
+
+.fpet-content .list-block .item-input input:-ms-input-placeholder {
+                /* Internet Explorer 10-11 */
+                color: #cccccc;
+            }
+
+.fpet-content .list-block .sex-input span {
+                display: inline-block;
+                text-align: center;
+                width: 2.3rem;
+                height: 1rem;
+                border-radius: .5rem;
+                border: solid 1px #cccccc;
+                color: #cccccc;
+                font-size: .6rem;
+                margin-right: 1rem;
+            }
+
+.fpet-content .list-block .sex-input .active {
+                border: solid 1px #fd797b;
+                color: #fd797b;
+            }
+
+.actions-modal-button {
+    font-size: .8rem !important;
+    color: #333333;
+}
+
+.popup-petVariety {
+    height: 20rem;
+    top: calc(100% - 20rem);
+}
+
+.popup-petVariety .variety-box {
+        padding: .75rem;
+    }
+
+.popup-petVariety .variety-box ul {
+            width: 100%;
+            height: 17rem;
+            background: white;
+            -webkit-box-pack: justify;
+                -ms-flex-pack: justify;
+                    justify-content: space-between;
+            -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+        }
+
+.popup-petVariety .variety-box ul li {
+                height: 33.3%;
+                width: 25%;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                    -ms-flex-direction: column;
+                        flex-direction: column;
+            }
+
+.popup-petVariety .variety-box ul li .avatar {
+                    width: 2.75rem;
+                    height: 2.75rem;
+                }
+
+.popup-petVariety .variety-box ul li .avatar img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 1.325rem;
+                    }
+
+.popup-petVariety .variety-box ul li .name {
+                    color: #333333;
+                    font-size: .7rem;
+                    margin-top: .25rem;
+                }
+
+.popup-petVariety .cancel-btn {
+        width: 100%;
+        height: 2.5rem;
+        background: #b3b3b3;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding-top: .3rem;
+    }
+
+.popup-petVariety .cancel-btn .btn {
+            width: 100%;
+            height: 2.2rem;
+            background: white;
+        }
+
+.popup-overlay {
+    display: none !important;
+}
+
+/*搜索地址页面*/
+
+.locationPage-content {
+    margin-bottom: 0;
+}
+
+.locationPage-content .search-reslut {
+        position: absolute;
+        overflow: auto;
+        top: 3.5rem;
+        left: 4%;
+        width: 92%;
+        bottom: 3.5rem;
+        background: white;
+        z-index: 1;
+        -webkit-box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.08);
+                box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.08);
+        border-radius: .1rem;
+    }
+
+.locationPage-content .search-reslut ul li {
+                height: 3rem;
+                padding: .6rem;
+                border-bottom: 1px solid #e5e5e5;
+            }
+
+.locationPage-content .search-reslut ul li .res-title {
+                    font-size: .7rem;
+                    color: #666666;
+                }
+
+.locationPage-content .search-reslut ul li .res-address {
+                    font-size: .6rem;
+                    color: #999999;
+                    margin-top: .15rem;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+/*--------宠卡部分--------*/
+
+.albumPage-content, .cardPage-content {
+    margin-bottom: 1rem;
+}
+
+/*--------宠卡/创建--------*/
+
+.cardIndex-content {
+    background-color: #fd797b;
+    margin-bottom: 2.5rem;
+}
+
+.cardIndex-content .card-box {
+        top: 13%;
+        position: relative;
+        width: 85%;
+        height: 22rem;
+    }
+
+.cardIndex-content .card-box .stack .stack-one, .cardIndex-content .card-box .stack .stack-two {
+                background-color: white;
+                opacity: 0.4;
+                position: absolute;
+                -webkit-box-shadow: 0px 0px 32px 0px #ec5658;
+                        box-shadow: 0px 0px 32px 0px #ec5658;
+            }
+
+.cardIndex-content .card-box .stack .stack-one {
+                width: 81%;
+                height: 200px;
+                top: 0;
+                left: 9.5%;
+                border-radius: .75rem;
+            }
+
+.cardIndex-content .card-box .stack .stack-two {
+                width: 90%;
+                height: 200px;
+                top: .5rem;
+                left: 5%;
+                border-radius: .75rem;
+            }
+
+.cardIndex-content .card-box .card-create {
+            width: 100%;
+            top: 1rem;
+            position: absolute;
+            left: 0;
+            border-radius: .75rem;
+            -webkit-perspective: 1500;
+            -moz-perspective: 1500;
+        }
+
+.cardIndex-content .card-box .card-create .card-front {
+                position: relative;
+                height: 100%;
+                background: white;
+                border-radius: .75rem;
+                -webkit-transition: all 1s;
+                transition: all 1s;
+                -webkit-backface-visibility: hidden;
+                        backface-visibility: hidden;
+                -webkit-box-shadow: 0px 0px 32px 0px #ec5658;
+                        box-shadow: 0px 0px 32px 0px #ec5658;
+            }
+
+.cardIndex-content .card-box .card-create .card-cover img {
+                    width: 100%;
+                    border-top-left-radius: 0.75rem;
+                    border-top-right-radius: 0.75rem;
+                }
+
+.cardIndex-content .card-box .card-create .card-title {
+                font-size: 1rem;
+                color: #333333;
+                text-align: center;
+                margin-top: 1.3rem;
+            }
+
+.cardIndex-content .card-box .card-create .card-subtitle {
+                font-size: .7rem;
+                color: #999999;
+                text-align: center;
+                margin-top: .5rem;
+            }
+
+.cardIndex-content .card-box .card-create .card-btn {
+                background-color: #fd797b;
+                width: 6rem;
+                height: 1.5rem;
+                border-radius: .75rem;
+                text-align: center;
+                line-height: 1.5rem;
+                color: white;
+                font-size: .7rem;
+                -webkit-box-shadow: none;
+                        box-shadow: none;
+                border: none;
+                position: absolute;
+                bottom: 1.4rem;
+                left: calc(50% - 3rem);
+            }
+
+.cardIndex-content .card-box .card-create .card-back {
+                position: absolute;
+                padding: 1.25rem 1rem;
+                border-radius: .75rem;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background: white;
+                z-index: 200;
+                /* opacity: 0; */
+                /* display: none; */
+                -webkit-transition: all 1s;
+                transition: all 1s;
+                -webkit-backface-visibility: hidden;
+                        backface-visibility: hidden;
+                -webkit-transform: rotateY(-180deg);
+                        transform: rotateY(-180deg);
+                -webkit-box-shadow: 0px 0px 32px 0px #ec5658;
+                        box-shadow: 0px 0px 32px 0px #ec5658;
+            }
+
+.cardIndex-content .card-box .card-create .card-back .avatar {
+                    position: absolute;
+                    top: 1.25rem;
+                    right: 1rem;
+                }
+
+.cardIndex-content .card-box .card-create .card-back .avatar img {
+                        width: 4rem;
+                        height: 4rem;
+                        border-radius: 2rem;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-form-item {
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: flex;
+                    -webkit-box-align: center;
+                        -ms-flex-align: center;
+                            align-items: center;
+                    margin-bottom: .95rem;
+                }
+
+.cardIndex-content .card-box .card-create .card-back .card-form-item .item-title {
+                        color: #333333;
+                        font-size: .75rem;
+                        -ms-flex-negative: 0;
+                            flex-shrink: 0;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-form-item .item-input {
+                        padding-left: 1rem;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-form-item .item-input input {
+                            font-size: .7rem;
+                        }
+
+.cardIndex-content .card-box .card-create .card-back .card-form-btn {
+                    width: 6rem;
+                    height: 1.5rem;
+                    background-color: #fd797b;
+                    border-radius: 100px;
+                    -webkit-box-shadow: 0px 2px 14px 0px #fd797b;
+                            box-shadow: 0px 2px 14px 0px #fd797b;
+                    text-align: center;
+                    line-height: 1.5rem;
+                    color: white;
+                    font-size: .7rem;
+                }
+
+.cardIndex-content .card-box .card-create .card-back .card-name-input {
+                    margin-bottom: 1.75rem;
+                }
+
+.cardIndex-content .card-box .card-create .card-back .card-name-input input {
+                        font-size: .9rem;
+                        border: none;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-name-input input::-webkit-input-placeholder {
+                        color: #333333;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-name-input input::-moz-placeholder {
+                        /* Mozilla Firefox 19+ */
+                        color: #333333;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-name-input input:-moz-placeholder {
+                        /* Mozilla Firefox 4 to 18 */
+                        color: #333333;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .card-name-input input:-ms-input-placeholder {
+                        /* Internet Explorer 10-11 */
+                        color: #333333;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .sex-input span {
+                        display: inline-block;
+                        text-align: center;
+                        height: 1rem;
+                        line-height: 1rem;
+                        border-radius: .5rem;
+                        border: solid 1px #cccccc;
+                        color: #cccccc;
+                        font-size: .6rem;
+                        margin-right: 1rem;
+                        padding: 0 .6rem;
+                    }
+
+.cardIndex-content .card-box .card-create .card-back .sex-input .active {
+                        border: solid 1px #fd797b;
+                        color: #fd797b;
+                    }
+
+/* 宠卡列表 */
+
+.cardListPage-content .petCard-list {
+        padding: .75rem;
+        padding-bottom: 0;
+        width: 100%;
+    }
+
+.cardListPage-content .petCard-list li {
+            width: 100%;
+        }
+
+.cardListPage-content .addPetCard-btn {
+        display: block;
+        width: calc(100% - 1.5rem);
+        height: 3.2rem;
+        background-color: #ffffff;
+        border-radius: .5rem;
+        text-align: center;
+        line-height: 3.2rem;
+        margin: 0 .75rem;
+        color: #333333;
+        font-size: 1rem;
+    }
+
+/*宠卡列表--宠卡*/
+
+.petCard-item {
+    display: block;
+    width: 100%;
+    background-color: yellowgreen;
+    border-radius: .5rem;
+    padding: 1.2rem 1.75rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.petCard-item .name {
+        color: #ffffff;
+        font-size: 1rem;
+    }
+
+.petCard-item .avatar {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 2rem;
+        position: absolute;
+        top: 1.35rem;
+        right: 1.95rem;
+    }
+
+.petCard-item .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 2rem;
+        }
+
+.petCard-item .chip-num {
+        position: absolute;
+        bottom: 1.2rem;
+        right: 1.95rem;
+        padding: 0 .4rem;
+        height: .8rem;
+        border-radius: .4rem;
+        color: white;
+        text-align: center;
+        line-height: .8rem;
+        font-size: .6rem;
+        background-color: rgba(255, 232, 0, 0.4);
+    }
+
+.petCard-item .info-box {
+        position: absolute;
+        left: 1.75rem;
+        bottom: 1.2rem;
+        font-size: .6rem;
+        color: white;
+    }
+
+.petCard-item .info-box .info-item {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+                -ms-flex-align: center;
+                    align-items: center;
+        }
+
+.petCard-item .info-box img {
+            width: .6rem;
+            height: .6rem;
+            border-radius: .3rem;
+            margin-right: .5rem;
+            background: white;
+        }
+
+.petCard-item .classify {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+        color: white;
+        font-size: .6rem;
+        width: 2.25rem;
+        height: .75rem;
+        border-radius: 1.125rem;
+    }
+
+.petCard-item .classify span img {
+                width: .6rem;
+                height: .6rem;
+                border-radius: .3rem;
+                background-color: #ffffff;
+            }
+
+.petCard-item .classify-cat {
+        background-color: #8696eb;
+    }
+
+.petCard-item .classify-dog {
+        background-color: #fd797b;
+    }
+
+.petCard-item .petCard-icon {
+        position: absolute;
+        background-color: white;
+        width: .6rem;
+        height: .6rem;
+    }
+
+.petCard-item .petCard-icon-1 {
+        top: .75rem;
+        left: .6rem;
+    }
+
+.petCard-item .petCard-icon-2 {
+        bottom: .75rem;
+        left: .6rem;
+    }
+
+.petCard-item .petCard-icon-3 {
+        bottom: .75rem;
+        right: .6rem;
+    }
+
+.petCard-item .petCard-icon-4 {
+        top: .75rem;
+        right: .6rem;
+    }
+
+/* vue动画 */
+/*# sourceMappingURL=maps/all.css.map */

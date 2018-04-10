@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+<!--  -->
+
+<body>
+    <!-- 你的html代码 -->
+    <div class="page" id="minePage">
+        <!-- tabbar -->
+        <mc-tabbar page="mine"></mc-tabbar>
+        <div class="content minePage-content">
+            <!-- avatar -->
+            <div class="list-block media-list">
+                <ul>
+                    <li>
+                        <div class="item-content head">
+                            <div class="item-media">
+                                <div class="user-validate" v-if="myself.approveState == 1">
+                                    <img :src=" myself.approveType == 1 ? 'img/icon/user-pv.jpg' : 'img/icon/user-ov.jpg' " alt="">
+                                </div>
+                                <img :src="myself.headImgUrl" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">{{myself.nickName}}</div>
+                                </div>
+                                <div class="item-subtitle item-tag flex-center">{{myself.approveState == 1 ? '已认证' : '未认证' }}</div>
+                            </div>
+                            <!-- 身份 -->
+                            <div class="item-identity"></div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- 是否志愿者 -->
+                <div class="volunteer-tag" style="display: none;">
+                    <img :src="myself.headImgUrl"  />
+                    <span>{{myself.tagName}}</span>
+                </div>
+            </div>
+            <!-- 菜单 -->
+            <div class="content-block-title mine-menu-title flex-center">我的任务</div>
+            <div class="list-block mine-menu">
+                <ul>
+                    <li>
+                        <a class="item-content item-link"  @click = "goTask">
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-todo.png" alt="" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">待处理
+                                    <span class="badge" v-show = "myself.unFinishCount != 0" >{{myself.unFinishCount}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="item-content item-link"  @click = "goPublish" >
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-publish.png" alt="" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">我发布的</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 菜单 -->
+            <div class="content-block-title mine-menu-title flex-center">我的消息</div>
+            <div class="list-block mine-menu">
+                <ul>
+                    <li>
+                        <a class="item-content item-link" @click = "goPrivateMsg" >
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-pmsg.png" alt="" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">私信
+                                    <span class="badge" v-show = "myself.privateMsgCount != 0"  >{{myself.privateMsgCount}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="item-content item-link" :href="'mine/attention.html?openid='+ param" >
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-attention.png" alt="" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">关注</div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="item-content item-link" @click="goPublishMsg">
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-interact.png" alt="" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">互动
+                                    <span class="badge" v-show = "myself.publicMsgCount != 0" >{{myself.publicMsgCount}}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="item-content item-link" :href="'mine/message.html?openid='+ param" >
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-transmit.png" alt="" />
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title">转发</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- 认证 -->
+            <div class="content-block-title mine-menu-title flex-center">我的认证</div>
+            <div class="list-block mine-menu">
+                <ul>
+                    <li>
+                        <a class="item-content item-link external" ><!--:href="'ov-state.html?openid='+param"-->
+                            <div class="item-media">
+                                <img class="list-icon" src="img/icon/mine-validate.png" alt="" />
+                            </div>
+                            <div class="item-inner" @click="goApprove">
+                                <div class="item-title">认证主页</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/components.js'></script>
+    <script type='text/javascript' src='js/mine.js'></script>
+</body>
+
+</html>

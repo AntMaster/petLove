@@ -1,0 +1,218 @@
+.album-del {
+    position: absolute;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 99;
+}
+
+.album-del img {
+    width: 100%;
+    height: 100%;
+    border-radius: .5rem;
+}
+.album-cover {
+    width: 100%;
+    height: 6.25rem;
+    background-color: #999999;
+    position: relative;
+    margin-bottom: 1.5rem;
+    position:relative;
+    /*封面图片作为背景设置*/
+}
+.album-cover .cover-img{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.album-name {
+    position: absolute;
+    font-size: 0.9rem;
+    left: 0.75rem;
+    top: 2.05rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+}
+
+.album-name img {
+    display: inline-block;
+    width: 0.8rem;
+    height: 0.8rem;
+    margin-left: 0.4rem;
+}
+
+.album-num {
+    position: absolute;
+    font-size: 0.7rem;
+    left: 0.75rem;
+    top: 4.35rem;
+    color: #ffffff;
+}
+
+.album-btn {
+    position: absolute;
+    width: 3.775rem;
+    height: 1.5rem;
+    border-radius: 2.5rem;
+    color: #ffffff;
+    font-size: 0.7rem;
+    text-align: center;
+    line-height: 1.5rem;
+}
+
+.pic-control {
+    background-color: #fd797b;
+    top: 3.85rem;
+    right: 5rem;
+}
+
+.cover-set {
+    background-color: #7ad9da;
+    top: 3.85rem;
+    right: 0.75rem;
+}
+
+
+/*照片列表*/
+
+.photo-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* padding: 0 0.5rem; */
+    padding: 0 2%;
+}
+
+.photo {
+    margin: 0 2%;
+    /* width: 4.9rem;
+	height: 4.9rem; */
+    width: 28%;
+    /* margin-left: 4%; */
+    background-color: #ffffff;
+    margin-bottom: 0.5rem;
+    position: relative;
+    border-radius: .2rem;
+}
+
+.album-new {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    /*flex-direction: column;
+	align-items: center;
+	justify-content: center;*/
+}
+
+.album-new p {
+    margin: 0;
+    color: #8796ec;
+    /*font-size: 0.7rem;*/
+    position: absolute;
+    z-index: 50;
+}
+
+.plus {
+    width: 100%;
+    font-size: 2rem;
+    text-align: center;
+    top: 10%;
+}
+
+.upPic {
+    width: 100%;
+    font-size: 0.7rem;
+    text-align: center;
+    top: 70%;
+}
+
+.album-new input {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    z-index: 999;
+}
+
+.modal-button:first-child {
+    color: #000000;
+}
+
+.album-edit {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.7rem;
+    text-indent: 0.5rem;
+    border-radius: 8px;
+    border: solid 1px #dddddd;
+}
+
+.pic-del {
+    position: absolute;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    background-color: #999999;
+    border: solid 2px #ffffff;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    z-index: 99;
+}
+
+
+/*删除相册最下按钮*/
+
+.del-mask {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 1.75rem;
+    bottom: 0;
+    background-color: #fb8586;
+    opacity: 0.9;
+    color: #ffffff;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.75rem;
+}
+
+.cover-mask {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 1.75rem;
+    bottom: 0;
+    background-color: #86dbdd;
+    opacity: 0.9;
+    color: #ffffff;
+    font-size: 0.85rem;
+    text-align: center;
+    line-height: 1.75rem;
+}
+
+input::-webkit-input-placeholder {
+    color: #bbbbbb;
+}
+
+input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #bbbbbb;
+}
+
+input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #bbbbbb;
+}
+
+input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #bbbbbb;
+}

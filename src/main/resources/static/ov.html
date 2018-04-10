@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>企业认证</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+    <!-- 个人认证 -->
+    <div class="page" id="ovPage">
+        <div class="content ovPage-content">
+            <div class="head">
+                <img src="img/icon/ov-head.png" alt="" />
+                <span>协会或组织认证</span>
+            </div>
+            <!-- remind -->
+            <div class="validate-remind" style="display:none;">
+                <div class="icon">
+                    <img src="img/icon/validate-success.png" alt="">
+                </div>
+                <div class="remind-text">恭喜您，认证成功啦</div>
+                <a class="remind-btn">去首页看看</a>
+            </div>
+            <div class="ov-body">
+                <!-- form -->
+                <div class="list-block">
+                    <ul>
+                        <!-- Text inputs -->
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text" v-model ="formData.organizationName"  placeholder="输入组织或协会名称">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text"  v-model ="formData.dutyer" placeholder="输入负责人姓名">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="number"  v-model ="formData.dutyerPhone" placeholder="输入负责人联系方式">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <input type="text" v-model ="formData.messageCode" placeholder="输入6位数验证码">
+                                    </div>
+                                    <!-- 验证码按钮 -->
+                                    <a class="verify-btn" @click="getMessageCode">点击获取</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-input">
+                                        <div class="upload-title">上传图片</div>
+                                        <div class="upload-box">
+                                            <img class="uploaded-img" :src="formData.organizationImage"  style="position: absolute;top:0;left:0;width: 100%;height: 100%;" />
+                                            <!-- input -->
+                                            <input type="file" name = "file" id="upload" accept="image/*">
+                                            <!-- icon -->
+                                            <img src="img/icon/icon-add.png" class="icon center-block" alt="" >
+                                            <!-- title -->
+                                            <div class="upload-title">营业执照或信用机构代码照片</div>
+                                            <!--uploaded img-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="submit-btn" :class="{active:formData.organizationName && formData.organizationImage && formData.dutyer && formData.dutyerPhone && formData.messageCode}" @click="validate" >提交审核</div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/components.js'></script>
+    <script type="text/javascript" src='js/ov.js'></script>
+</body>
+
+</html>

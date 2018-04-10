@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>搜索</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+    <!-- 你的html代码 -->
+    <div class="page" id="locationPage">
+        <div class="content searchPage-content locationPage-content">
+            <transition name="fade">
+                <div v-if="maskShow" class="mask mask-white"></div>
+            </transition>
+            <!-- 搜索框 -->
+            <div class="search-box">
+                <input type="text" v-model="keyword" placeholder="输入关键字搜索" />
+                <div class="search-btn" @click="search('keyword')">搜索</div>
+            </div>
+            <!-- 搜索结果 -->
+            <transition>
+                <div v-if="resultShow" class="search-reslut">
+                    <ul>
+                        <li v-for="(item,index) in resList" @click="selectAddress(item.address,item.point)">
+                            <div class="res-title">{{item.title}}</div>
+                            <div class="res-address">{{item.address}}</div>
+                        </li>
+                    </ul>
+                </div>
+            </transition>
+
+            <baidu-map style="opacity:0;" class="bm-view" maptype="BMAP_NORMAL_MAP" :zoom="12" :scroll-wheel-zoom="scrollWheelOpen" center="武汉">
+                <bm-local-search :forcelocal="true" @searchcomplete="handleSearchComplete" :panel="false" :keyword="keyword" :auto-viewport="true" location="location"></bm-local-search>
+                <!-- 定位 -->
+                <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showaddressbar="true" :autolocation="true"></bm-geolocation>
+                <!-- 缩放Btn -->
+                <!-- <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation> -->
+                <bm-marker :position="{lng: 114.426, lat: 30.466}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" :icon="{url: 'http://developer.baidu.com/map/jsdemo/img/fox.gif', size: {width: 300, height: 157}}"></bm-marker>
+            </baidu-map>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/components.js'></script>
+    <script src="https://unpkg.com/vue-baidu-map"></script>
+    <script>
+        //地图组件初始化
+        Vue.use(VueBaiduMap.default, {
+            ak: 'LOnzr56cOpw0LoZ5dt8GSGdej9YRjGrn'
+        });
+        var app = new Vue({
+            el: "#locationPage",
+            data: {
+                testPoint: "{lng: 30.4660040000, lat: 114.4239750000}",
+                scrollWheelOpen: true,
+                keyword: '',
+                maskShow: false,
+                resultShow: false,
+                location: "武汉",
+                resList: []
+            },
+            methods: {
+                search(w) {
+                    alert(w);
+                },
+                handleSearchComplete(res) {
+                    //获取检索结果
+                    if (res == undefined) return false;
+                    if (res.zr.length > 0) {
+                        this.resList = res.zr;
+                    }
+                },
+                selectAddress(address) {
+                    $.router.back("fpet.html?address=" + encodeURI(address));
+                }
+            },
+            watch: {
+                keyword: function(newStr, oldStr) {
+                    if (newStr.length != 0) {
+                        this.maskShow = true;
+                        this.resultShow = true;
+                    } else {
+                        this.maskShow = false;
+                        this.resultShow = false;
+                    }
+                }
+            },
+        });
+        $(document).on("pageReinit", function() {
+            alert("页面返回来啦");
+        });
+    </script>
+</body>
+
+</html>

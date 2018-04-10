@@ -1,0 +1,28 @@
+SQL server
+118.31.9.90
+administrator
+petin520CQ
+
+--local 
+118.31.9.90
+uid:sa
+pwd:petin520
+
+IP：114.55.38.33
+密码：3327132713shumahe!
+
+
+蝌蚪聚力公众号
+账号:kedoujuli@qq.com
+密码:shumahekeji518
+appid:wx41fd8229749f5df8
+app Secret:76cde729d3bbf04728661309549298f5
+token:ishumahe160107
+
+
+Server=114.55.38.33
+Database=PawLove
+uid=iShumahe
+pwd=1qaz2wsx3edc!@#
+
+

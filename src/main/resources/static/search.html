@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>搜索</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+<!-- 你的html代码 -->
+<div class="page" id="searchPage">
+    <!-- tabbar -->
+    <mc-tabbar page="search"></mc-tabbar>
+    <!-- mask -->
+    <div class="mask"></div>
+    <!-- 抽屉 -->
+    <div class="panel panel-right panel-cover filter-draw">
+        <div class="title-box">筛选</div>
+        <div class="filter-item-box">
+            <!-- 频道 -->
+            <div class="filter-item">
+                <div class="item-title">频道</div>
+                <div class="item-tags">
+                    <ul class="commonList-row">
+                        <li :class="{active:publishType==2}" @click="changePublishType(1)">寻主</li>
+                        <li :class="{active:publishType==1}" @click="changePublishType(2)">寻宠</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 类别 -->
+            <div class="filter-item">
+                <div class="item-title">类别</div>
+                <div class="item-tags">
+                    <ul class="commonList-row">
+                        <li :class="{active:classifyID==3}" @click="changePetClass(3)">汪</li>
+                        <li :class="{active:classifyID==2}" @click="changePetClass(2)">喵</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 品种 -->
+            <div class="filter-item">
+                <div class="item-title">品种</div>
+                <div class="item-tags">
+                    <ul class="commonList-row">
+                        <li @click="selectVariety(index,item.id)" :class="{active:svIndex==index}" v-for="(item,index) in showVarietyArr">{{item.name}}</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 性别 -->
+            <div class="filter-item">
+                <div class="item-title">性别</div>
+                <div class="item-tags">
+                    <ul class="commonList-row">
+                        <li :class="{active:petSex == 1}" @click="changePetSex(1)">公</li>
+                        <li :class="{active:petSex == 0}" @click="changePetSex(0)">母</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 重置 确定 -->
+        <div class="action-box">
+            <div class="reset" @click="reset" >重置</div>
+            <div class="ok close-panel" @click="search">确认</div>
+        </div>
+    </div>
+    <div class="content searchPage-content">
+        <!-- 搜索框 -->
+        <div class="search-box">
+            <input v-model="keyword" placeholder="输入关键字搜索" />
+            <div class="search-btn" @click="search('keywords')">搜索</div>
+        </div>
+        <!-- 筛选按钮 -->
+        <div class="filter open-panel" @click="draw">
+            <img src="img/icon/icon-filter.png" />
+        </div>
+        <!-- pet card -->
+        <div class="marker-card" @click="goDetail(tempActiveCard)">
+            <div class="card-info">
+                <div class="tag flex-center" :class="{tagFowner:tempActiveCard.publishType == 2}">{{tempActiveCard.publishType == 1 ? "寻宠" : "寻主"}}</div>
+                <div class="nickname">宠物昵称：{{tempActiveCard.petName}}</div>
+                <div class="date">丢失日期：{{tempActiveCard.lostTime}}</div>
+                <div class="user-info">
+                    <div class="avatar flex-center">
+                        <img :src="tempActiveCard.publisherPhoto" />
+                    </div>
+                    <div class="info">
+                        <div class="nickname">{{tempActiveCard.publisherName}}</div>
+                        <div class="date">{{tempActiveCard.createTime}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-img-location">
+                <div class="img-box">
+                    <div class="cardImg-mask" v-show="tempActiveCard.findState == 1">
+                        <img src="img/icon/icon-found-big.jpg">
+                    </div>
+                    <img class="tag" :src="tempActiveCard.classifyId == 2 ? 'img/icon/icon-miao.png':'img/icon/icon-wang.png'" />
+                    <img class="pet-img" :src="tempActiveCard.petImage" />
+                </div>
+                <div class="location-box">
+                    <img src="img/icon/icon-card-location.png" />
+                    <span>{{tempActiveCard.lostLocation}}</span>
+                </div>
+            </div>
+        </div>
+        <baidu-map @click="closeDetail" class="bm-view" mapType="BMAP_NORMAL_MAP" :zoom="12" :scroll-wheel-zoom="true" center="武汉">
+            <!-- 定位 -->
+            <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showaddressbar="true" :autolocation="true"></bm-geolocation>
+            <!-- 缩放Btn -->
+            <!-- <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation> -->
+            <bm-marker ref="marker" @click="openDetail(item,index)" v-for="(item,index) in annotationList" :position="{lng: item.longitude, lat: item.latitude}" :icon="annotationConfArr[index]" animation="BMAP_ANIMATION_BOUNCE">
+            </bm-marker>
+        </baidu-map>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type='text/javascript' src='libs/l7/light7.min.js'></script>
+<script type='text/javascript' src='js/vue.js'></script>
+<script type='text/javascript' src='js/common.js'></script>
+<script type='text/javascript' src='js/components.js'></script>
+<script src="https://unpkg.com/vue-baidu-map"></script>
+<script type="text/javascript" src="js/search.js"></script>
+</body>
+
+</html>

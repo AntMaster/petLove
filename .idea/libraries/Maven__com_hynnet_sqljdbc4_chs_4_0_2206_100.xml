@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.hynnet:sqljdbc4-chs:4.0.2206.100">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/hynnet/sqljdbc4-chs/4.0.2206.100/sqljdbc4-chs-4.0.2206.100.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/hynnet/sqljdbc4-chs/4.0.2206.100/sqljdbc4-chs-4.0.2206.100-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/hynnet/sqljdbc4-chs/4.0.2206.100/sqljdbc4-chs-4.0.2206.100-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

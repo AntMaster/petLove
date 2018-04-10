@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<h1>上传</h1>
+
+<img onclick="getElementById('inputfile').click()" title="点击添加图片" alt="点击添加图片">
+<input type="file" name="file" style="" name="file" id="inputFile" enctype="multipart/form-data" accept="image/*"/>
+<input type="button" value="删除相册" id="deletePhoto">
+
+<script>
+
+    $("#deletePhoto").bind('click', function (e) {
+
+        $.ajax({
+            url: '/pethome/pet/photo/Aileen',
+            type: 'DELETE',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                photoId: [1,2,3]
+            }),
+            success: function (data) {
+                console.log(data)
+
+            }
+        });
+
+    })
+
+    $("#inputFile").change(function () {
+        //创建FormData对象
+        var data = new FormData();
+        //为FormData对象添加数据
+        //
+        $.each($('#inputFile')[0].files, function (i, file) {
+            data.append('file', file);
+        });
+        $.ajax({
+            url: '/pethome/upload/publish',
+            type: 'POST',
+            data: data,
+            cache: false,
+            contentType: false,    //不可缺
+            processData: false,    //不可缺
+            success: function (data) {
+                console.log(data)
+
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

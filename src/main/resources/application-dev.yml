@@ -1,0 +1,83 @@
+server:
+  context-path: /pethome
+
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: 123456
+#    url: jdbc:mysql://127.0.0.1:3306/pethome?characterEncoding=utf-8&useSSL=false
+
+spring:
+  profiles:
+    active: dev
+
+#  thymeleaf:
+#    mode: LEGACYHTML5
+#    encoding: UTF-8
+#    content-type: text/html
+#    cache: false
+
+  datasource:
+    url: jdbc:sqlserver://118.31.9.90:1433;DatabaseName=PawLove
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: petin520
+
+  jpa:
+    show-sql: true
+#    initial-size: 1
+#    min-idle: 1
+#    max-active: 20
+#    test-on-borrow: true
+#    max-wait: 60000
+#    time-between-eviction-runs-millis: 60000
+#    min-evictable-idle-time-millis: 300000
+#    validation-query: SELECT 1 FROM DUAL
+#    test-While-Idle: true
+#    test-on-return: false
+#    pool-prepared-statements: false
+#    max-pool-prepared-statement-per-connection-size: 20
+#    filters: stat,wall,log4j,config
+
+  jackson:
+    default-property-inclusion: non_null
+
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 3MB
+      max-request-size: 3MB
+      #location: /fileUpload
+
+#  mvc:
+#    static-path-pattern: /**,
+#
+#  resources:
+#    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}/
+
+######自定义配置
+web:
+  upload-path: C:/petlove/upload/
+  sms:
+    account: whlehuike
+    password: Tch147258
+    url: http://222.73.117.156/msg/HttpBatchSendSM
+
+picturePath: C:/petlove/upload/
+
+
+wechat:
+  mpAppId: wx41fd8229749f5df8
+  mpAppSecret: 76cde729d3bbf04728661309549298f5
+  myAppToken: ishumahe160107
+  myAppEncodingAESKey: PXIlIEdOXBDmXYKVsFHgvzsOroMPybpvUwujU7ugako
+  myAppMsgTemplateId: O3TKJTZYpJXCqcwlA1Hm6V9t2rgERR4QJVPg5oQBx7w
+
+
+projectUrl:
+  wechatMpAuthorize: http://girl.nat300.top
+#wechatOpenAuthorize: http://girl.nat300.top
+  petHome: http://girl.nat300.top
+  xx: http://girl.nat300.top/pethome/wechat/entry
+

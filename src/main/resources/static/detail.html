@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+<div class="page" id="detailPage">
+    <div onClick="remindHide()" class="remindBox">
+        <img src="img/share-remind.jpg" />
+    </div>
+    <div class="content detailPage-content">
+        <div class="detail-box">
+            <div class="card facebook-card">
+                <!-- 标签，寻宠/寻主 -->
+                <div class="card-tag">
+                    <div class="tag-title flex-center"
+                         :class="[{xunzhu:detailData.publishType == 2},{found:detailData.findState == 1}]">
+                        <!--{{detailData.publishType == 1 ? "寻宠":"寻主"}}-->
+                        <span v-if="detailData.findState == 1">找到了</span>
+                        <span v-if="detailData.findState == 0">{{detailData.publishType == 1 ? "寻宠":"寻主"}}</span>
+                    </div>
+                    <img class="tag-img" v-if="detailData.classifyId == 2 && !detailData.findState"
+                         src="img/icon/icon-miao.png"/>
+                    <img class="tag-img" v-if="detailData.classifyId == 2 && detailData.findState"
+                         src="img/icon/icon-miao-found.png"/>
+                    <img class="tag-img" v-if="detailData.classifyId == 3 && !detailData.findState"
+                         src="img/icon/icon-wang.png"/>
+                    <img class="tag-img" v-if="detailData.classifyId == 3 && detailData.findState"
+                         src="img/icon/icon-wang-found.png"/>
+                </div>
+                <div class="card-header no-border">
+                    <div class="facebook-avatar">
+                        <div class="user-validate" v-if="detailData.approveState">
+                            <img :src="detailData.approveType == 1 ? 'img/icon/user-pv.jpg' : 'img/icon/user-ov.jpg' " alt="">
+                        </div>
+                        <img :src="detailData.publisherPhoto" width="34" height="34">
+                    </div>
+                    <div class="facebook-name">{{detailData.publisherName}}</div>
+                    <div class="facebook-date">{{detailData.createTime}}</div>
+                </div>
+                <div class="card-content">
+                    宠物名字：{{detailData.petName}}
+                    <br> 宠物性别：公
+                    <br> 宠物品种：{{detailData.varietyName}}
+                    <br> 丢失日期：{{detailData.lostTime}} <br> 丢失地点：{{detailData.lostLocation}}
+                    <br> 主人姓名：{{detailData.ownerName}}
+                    <br> 联系方式：
+                    <a :href="'tel:'+detailData.ownerContact" class="external">联系TA</a><br>
+                    描述：{{detailData.petDescription}}<br>
+                    <!-- 如果消息内包含图片 -->
+                    <div class="card-content-imgs">
+                        <img v-for="item in petImageArr" :src="item" alt="">
+                    </div>
+                    <!-- 分享 -->
+                    <div class="action-box">
+                        <!-- 浏览次数 -->
+                        <div class="view">
+                            <img src="img/icon/card-look.png">
+                            <span>{{detailData.viewCount}}</span>
+                        </div>
+                        <!-- 分享 -->
+                        <div class="share" onClick="openShareRemind();">
+                            <img src="img/icon/card-share.png" alt="">
+                            <span>{{detailData.shareCount}}</span>
+                        </div>
+                        <!-- 关注 -->
+                        <div class="attention" @click="attention" >
+                            <img  :src="detailData.likeState ? 'img/icon/card-zaned.png' : 'img/icon/card-zan.png'"  alt="">
+                            <span>关注</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 按钮 找到了 -->
+        <div class="action-box" >
+            <a  href="javascript:;" v-show = "isAuthority" :class="{petFound: detailData.findState}" @click="found(detailData.publisherId)">{{detailData.findState ? "已找到" : "结束寻找" }}</a>
+        </div>
+        <div class="msg-box">
+            <!-- 分页 -->
+            <div class="segment-box">
+                <div class="item" :class="{active:msgListType=='interactMsg'}" @click="changeList(0)">
+                    <div class="item-title">互动<span>{{detailData.publicMsgCount}}</span></div>
+                    <div class="item-underline"></div>
+                </div>
+                <div class="item" :class="{active:msgListType=='privateMsg'}" @click="changeList(1)">
+                    <div class="item-title">
+                        私信<span>{{detailData.privateMsgCount ? detailData.privateMsgCount : ''}}</span></div>
+                    <div class="item-underline"></div>
+                </div>
+            </div>
+            <!-- 提示 -->
+            <div class="remind">
+                为保障宠物安全，请使用私信提供线索
+            </div>
+            <!--消息为空提示文字-->
+            <!--<div v-show="msgListType == 'privateMsg' && privateMsgListNull" style="margin-top:1rem;text-align: center;font-size: .7rem;color: rgb(168, 168, 168);width: 100%;">空的,还没有私信</div>-->
+            <!-- 消息列表 -->
+            <ul class="messageList" >
+                <li v-for="(items,index1) in showMsgList">
+                    <div class="card facebook-card"><a class="reply-btn open-reply-modal" @click="reply(index1,items[0].talkId,items[0].replierFrom)">回复</a>
+                        <div class="card-header no-border">
+                            <div class="facebook-avatar">
+                                <div class="user-validate" v-if="items[0].approveState">
+                                    <img :src=" items[0].approveType == 1 ? 'img/icon/user-pv.jpg' : 'img/icon/user-ov.jpg' " alt="">
+                                </div>
+                                <img :src="items[0].replierFromPhoto" width="34" height="34">
+                            </div>
+                            <div class="facebook-name">{{items[0].replierFromName}}</div>
+                            <div class="item-comment">{{items[0].content}}</div>
+                        </div>
+                        <div class="card-content" v-if="items.length > 1">
+                            <ul class="reply-box">
+                                <li v-for="(item, index2) in items" v-if="msgListConfArr[index1].state == 0 || msgListConfArr[index1].state == 2 || index2 < 3" ><a>{{item.replierFromName}}：</a>{{item.content}}<!--v-show="index > 0 && index < 3 "-->
+                                </li>
+                                <a v-if="items.length > 3" @click="expand(index1)" >{{msgListConfArr[index1].btnText}}<span v-if=" msgListConfArr[index1].state == 1">全部{{items.length-3}}条回复</span></a>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- 回复栏 -->
+        <div class="comment-box">
+            <input type="text" v-model="commentContent" :placeholder="placeholderText"/>
+            <a class="send" @click="sendComment">发送</a>
+        </div>
+    </div>
+</div>
+<script src=" https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js "></script>
+<script type='text/javascript' src='libs/l7/light7.min.js'></script>
+<script type='text/javascript' src='js/vue.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0 "></script>
+<script type='text/javascript' src='js/common.js'></script>
+<script type='text/javascript' src='js/components.js'></script>
+<script type="text/javascript" src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>
+<script type="text/javascript " src='js/detail.js'></script>
+</body>
+
+</html>

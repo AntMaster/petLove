@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>关注</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../libs/l7/light7.min.css">
+    <link rel="stylesheet" href="../dest/all.min.css">
+</head>
+<body>
+    <div class="page" id="attentionPage">
+        <!-- tabbar -->
+        <mc-tabbar page="mine" lv=2></mc-tabbar>
+        <div class="content attentionPage-content">
+            <!-- nav -->
+            <div class="nav center-block">
+                <div class="nav-item flex-center" :class="{active:navActive}" @click="navChange(2)">
+                    <div class="nav-item-title">关注我的</div>
+                    <div class="nav-item-indicator"></div>
+                </div>
+                <div class="nav-item flex-center" :class="{active:!navActive}" @click="navChange(1)">
+                    <div class="nav-item-title">我关注的</div>
+                    <div class="nav-item-indicator"></div>
+                </div>
+            </div>
+           <!-- list -->
+           <div class="">
+            <ul class="messageList">
+                <li v-for="item in attentionArr ">
+                    <div class="card facebook-card">
+                        <div class="card-header no-border">
+                            <div class="facebook-avatar">
+                                <div class="user-validate" v-if="item.approveState">
+                                    <img :src=" item.approveType == 1 ? '../img/icon/user-pv.jpg' : '../img/icon/user-ov.jpg' " alt="">
+                                </div>
+                                <img :src="item.userFromImage" width="34" height="34">
+                            </div>
+                            <div class="facebook-name">{{item.userFromName}}</div>
+                            <div class="facebook-date">{{item.attentionTime}}</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-action-title">关注了</div>
+                            <div class="quote-box">
+                                <!-- avatar -->
+                                <div class="avatar">
+                                    <div class="cardImg-mask" v-show="0">
+                                        <img class="icon-small" src="../img/icon/icon-found.jpg">
+                                    </div>
+                                    <img class="quote-avatar" :src="item.petImage" />
+                                </div>
+                                <!-- info -->
+                                <div class="info-box">
+                                    <div class="info-item at">@{{item.acceptUserName}}</div>
+                                    <div class="info-item">宠物昵称：{{item.petName}}</div>
+                                    <div class="info-item">丢失日期：{{item.lostTime}}</div>
+                                    <!-- tag -->
+                                    <div class="tag flex-center">
+                                        {{item.publishType == 1 ? "寻宠" : "寻主"}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='../libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='../js/vue.js'></script>
+    <script type='text/javascript' src='../js/common.js'></script>
+    <script type='text/javascript' src='../js/components.js'></script>
+    <script src="../js/attention.js"></script>
+</body>
+
+</html>

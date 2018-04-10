@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>相册详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="libs/swiper/swiper.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+    <link rel="stylesheet" type="text/css" href="dest/album-info.css" />
+</head>
+
+<body>
+<div class="page" id="album-info">
+    <!-- 灯箱 -->
+    <div class="light-box" @click="lightBoxHide">
+        <img :src="lightBoxImg">
+    </div>
+    <div class="mask"></div>
+    <div class="content albumPage-content">
+        <!--封面-->
+        <div class="album-cover">
+            <img class="cover-img" :src=" petType == 2 ? 'img/album-back-cat.png' : 'img/album-back-dog.png' "/>
+            <div class="album-name">
+                {{albumData.name}}
+                <img src="img/icon/album-nameEdit.jpg" alt="" class="editAlbumName" />
+            </div>
+            <div class="album-num">
+                {{albumData.photoCount}}张
+            </div>
+            <div class="pic-control album-btn" @click="photoManage">
+                照片管理
+            </div>
+            <div class="cover-set album-btn" @click="coverManage">
+                设置封面
+            </div>
+        </div>
+        <div class="photoList-box">
+            <ul>
+                <li>
+                    <div class="item-new">
+                        <input style="z-index: 10;" type="file" id = "upPic" name = "file" accept="image/*"/>
+                        <div class="new-center">
+                            <div class="item-new-add">+</div>
+                            <div class="item-new-title">上传图片</div>
+                        </div>
+                    </div>
+                </li>
+                <li :class="{centerItem:index%3 == 0}" v-for="(item, index) in photoList" @click="lightBoxOpen(item.path)">
+                    <div class="item-photo" @click="clickPhoto(index,item.id)">
+                        <img :src="item.path">
+                        <div class="album-del" v-show="manager.open">
+                            <img :src="photoConfArr[index].icon" alt="" />
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="cover-mask" v-show="manager.open && manager.type == 1" @click="setCover">
+        设为封面
+    </div>
+    <div class="del-mask" v-show="manager.open && manager.type == 0" @click="delPhoto">
+        删除照片
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type='text/javascript' src='libs/l7/light7.min.js'></script>
+<script type='text/javascript' src='js/vue.js'></script>
+<script type='text/javascript' src='js/common.js'></script>
+<script type='text/javascript' src='js/album-info.js'></script>
+<script>
+    $(function () {
+        //初始化一些样式
+        var pwidth = $(".photo").width();
+        $(".photo").css("height", pwidth);
+        var pmargin = window.innerWidth * 4 / 100;
+        $(".photo").css("margin-bottom", pmargin);
+    })
+</script>
+</body>
+
+</html>

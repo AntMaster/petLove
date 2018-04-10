@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>互动</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../libs/l7/light7.min.css">
+    <link rel="stylesheet" href="../dest/all.min.css">
+</head>
+<body>
+    <div class="page" id="interactPage">
+        <!-- tabbar -->
+        <mc-tabbar page="mine" lv=2></mc-tabbar>
+        <div class="content interactPage-content">
+            <!-- list -->
+            <div class="">
+                <ul class="messageList">
+                    <li v-for="(item,index) in showMsgList">
+                        <div class="card facebook-card">
+                            <!-- 回复按钮 -->
+                            <a class="reply-btn open-reply-modal" @click="reply(index,item.userIdFrom,item.talkId,item.publishId)">回复</a>
+                            <div class="card-header no-border">
+                                <div class="facebook-avatar">
+                                    <div class="user-validate" v-if="item.approveState">
+                                        <img :src=" item.approveType == 1 ? '../img/icon/user-pv.jpg' : '../img/icon/user-ov.jpg' " alt="">
+                                    </div>
+                                    <img :src="item.userIdFromImage" width="34" height="34">
+                                </div>
+                                <div class="facebook-name">{{item.userIdFromName}}</div>
+                                <div class="facebook-date">{{item.talkTime}}</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-reply">{{item.content}}</div>
+                                <div class="quote-box">
+                                    <!-- avatar -->
+                                    <div class="avatar">
+                                        <div class="cardImg-mask" v-show="item.findState">
+                                            <img class="icon-small" src="../img/icon/icon-found.jpg">
+                                        </div>
+                                        <img class="quote-avatar" :src="item.petImage" />
+                                    </div>
+                                    <!-- info -->
+                                    <div class="info-box">
+                                        <div class="info-item at">@{{item.publisherName}}</div>
+                                        <div class="info-item">宠物昵称：{{item.petName}}</div>
+                                        <div class="info-item">丢失日期：{{item.lostTime}}</div>
+                                        <!-- tag -->
+                                        <div class="tag flex-center">
+                                            {{item.publishType == 1 ? "寻宠":"寻主"}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- reply list -->
+                                <div class="reply-list">
+                                    <ul>
+                                        <li  v-for="(aa,index) in item.detail">
+                                            <span>{{aa.userIdFromName}}</span>回复了<span>{{aa.userIdAcceptName}}：</span>{{aa.content}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script type='text/javascript' src='../libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='../js/vue.js'></script>
+    <script type='text/javascript' src='../js/common.js'></script>
+    <script type='text/javascript' src='../js/components.js'></script>
+    <script src="../js/interact.js"></script>
+</body>
+</html>

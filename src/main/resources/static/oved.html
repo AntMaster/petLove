@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>协会或组织认证</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+<!-- 个人认证 -->
+<div class="page" id="ovedPage">
+    <div class="content ovedPage-content">
+        <div class="list-block">
+            <ul>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">协会或组织名称</div>
+                        <div class="item-after">{{organizationName}}</div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">负责人姓名</div>
+                        <div class="item-after">{{dutyer}}</div>
+                    </div>
+                </li>
+                <li class="item-content">
+                    <div class="item-inner">
+                        <div class="item-title">已认证手机号</div>
+                        <div class="item-after">{{dutyerPhone}}</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <div class="upload-title" style="color: #333333;">营业执照或信用机构代码证</div>
+                                <div class="img-box">
+                                    <img :src="organizationImage" alt=""/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type='text/javascript' src='libs/l7/light7.min.js'></script>
+<script type='text/javascript' src='js/vue.js'></script>
+<script type='text/javascript' src='js/common.js'></script>
+<script type='text/javascript' src='js/components.js'></script>
+<script>
+    var app = new Vue({
+        el: "#ovedPage",
+        data: {
+            organizationName: "",
+            dutyer: "",
+            dutyerPhone: "",
+            organizationImage: ""
+        }, mounted: function () {
+            this.init();
+        },
+        methods: {
+            init: function () {
+
+                $.ajax({
+                    url: '/pethome/user/organization/' + GetQueryString("openid"),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: null,
+                    success: function (res) {
+                        if (res.code === 1) {
+                            app.organizationName = res.data.organizationName;
+                            app.organizationImage = res.data.organizationImage;
+                            app.dutyer = res.data.dutyer;
+                            app.dutyerPhone = res.data.dutyerPhone;
+
+                        } else {
+                            $.modal(goAuthormodal);
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+
+/*
+
+    if (res.data.type == "person") {
+
+        if (res.data.state == 0) {
+
+            $.modal(goAuthormodal);
+
+        } else {
+            window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+        }
+    } else if (res.data.type == "association") {
+
+        if (res.data.state == 0) {
+
+            window.location.href = "./ov-state.html?openid=" + GetQueryString("openid") + "&id=" + id;
+
+        } else if (res.data.state == 1) {
+
+            window.location.href = "./ov-state.html?openid=" + GetQueryString("openid") + "&id=" + id;
+
+        } else if (res.data.state == 2) {
+
+            window.location.href = "./ov-state.html?openid=" + GetQueryString("openid") + "&id=" + id;
+        }
+    }
+*/
+
+</script>
+</body>
+
+</html>
+

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>首页</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="libs/swiper/swiper.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+<!-- 你的html代码 -->
+<div class="page" id="index">
+    <div onClick="remindHide()" class="remindBox">
+        <img src="img/share-remind.jpg"/>
+    </div>
+    <!-- tabbar -->
+    <mc-tabbar page="index"></mc-tabbar>
+    <div class="content index-content " data-distance="100">
+        <!-- banner -->
+        <div class="index-banner">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide banner1">
+                        <img src="img/banner/banner1.jpg">
+                        <div class="slide-shadow"></div>
+                    </div>
+                    <div class="swiper-slide banner2">
+                        <img src="img/banner/banner2.jpg">
+                        <div class="slide-shadow"></div>
+                    </div>
+                    <div class="swiper-slide banner3">
+                        <img src="img/banner/banner3.jpg">
+                        <div class="slide-shadow"></div>
+                    </div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <!-- nav -->
+        <div class="index-nav center-block">
+            <ul class="commonList-row">
+                <li @click="loadDynamicList" class="active">动态</li>
+                <li @click="loadFindPetList">寻宠</li>
+                <li @click="loadFindOwnerList">寻主</li>
+                <li @click="loadFindAttentionList">关注</li>
+            </ul>
+        </div>
+        <!-- list -->
+        <div class="index-list">
+            <ul>
+                <li v-for="(item,index) in dynamicArr" class="v-cloak">
+                    <a>
+                        <div class="card facebook-card">
+                            <!-- 标签，寻宠/寻主 -->
+                            <div class="card-tag">
+                                <div class="tag-title flex-center"
+                                     :class="[{xunzhu:item.publishType == 2},{found:item.findState == 1}]">
+                                    <span v-if="item.findState == 1">找到了</span>
+                                    <span v-if="item.findState == 0">{{item.publishType == 1 ? "寻宠":"寻主"}}</span>
+                                </div>
+                                <img class="tag-img" v-if="item.classifyId == 2 && item.findState == 0"
+                                     src="img/icon/icon-miao.png"/>
+                                <img class="tag-img" v-if="item.classifyId == 2 && item.findState == 1"
+                                     src="img/icon/icon-miao-found.png"/>
+                                <img class="tag-img" v-if="item.classifyId == 3 && item.findState == 0"
+                                     src="img/icon/icon-wang.png"/>
+                                <img class="tag-img" v-if="item.classifyId == 3 && item.findState == 1"
+                                     src="img/icon/icon-wang-found.png"/>
+                            </div>
+                            <div class="card-header no-border">
+                                <div class="facebook-avatar">
+                                    <div class="user-validate" v-if="item.approveState">
+                                        <img :src=" item.approveType == 1 ? 'img/icon/user-pv.jpg' : 'img/icon/user-ov.jpg' "
+                                             alt="">
+                                    </div>
+                                    <img :src="item.publisherPhoto" width="34" height="34">
+                                </div>
+                                <div class="facebook-name">{{item.publisherName}}</div>
+                                <div class="facebook-date">{{item.createTime}}</div>
+                            </div>
+                            <div class="card-content" @click="entryDetail(item.id,item.publisherId)">
+                                <!--寻宠-->
+                                <div v-show="item.publishType == 1">
+                                    宠物昵称：{{item.petName}}<br>
+                                    丢失日期：{{item.lostTime}}
+                                </div>
+                                <!--寻主-->
+                                <div v-show="item.publishType == 2">
+                                    宠物品种：{{item.varietyName}}<br>
+                                    发现日期：{{item.lostTime}}
+                                </div>
+                                <div class="card-content-img">
+                                    <div class="cardImg-mask" v-show="item.findState == 1">
+                                        <img src="img/icon/icon-found-big.jpg">
+                                    </div>
+                                    <img :src="item.petImage"/>
+                                </div>
+                            </div>
+                            <div class="card-footer no-border">
+                                <div href="#" class="link">
+                                    <img src="img/icon/card-look.png"/>
+                                    <span>{{item.viewCount}}</span>
+                                </div>
+                                <div href="#" class="link" id="onMenuShareAppMessage" @click="share(item.id)">
+                                    <img src="img/icon/card-share.png"/>
+                                    <span>{{item.shareCount}}</span>
+                                </div>
+                                <div href="#" class="link" @click="attention(index,item.id,item.likeState)">
+                                    <img :src="item.likeState ? 'img/icon/card-zaned.png' : 'img/icon/card-zan.png'"/>
+                                    <span>关注</span>
+                                </div>
+                                <div href="#" class="link" @click="comment(item.id,item.publisherId)">
+                                    <img src="img/icon/card-comment.png"/>
+                                    <span>{{item.publicMsgCount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- preloader -->
+            <!--<div class="infinite-scroll-preloader">-->
+            <!--<div class="preloader"></div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type='text/javascript' src='libs/l7/light7.min.js'></script>
+<script type='text/javascript' src='libs/swiper/swiper.min.js'></script>
+<script type='text/javascript' src='js/vue.js'></script>
+<script type='text/javascript' src='js/common.js'></script>
+<script type='text/javascript' src='js/components.js'></script>
+<script type="text/javascript" src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>
+<script>
+
+
+    $(function () {
+
+        $.ajax({
+            url: '/pethome/wechat/jsApiSignature',
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                url: encodeURI(window.location.href)
+            },
+            success: function (res) {
+                if (res.code === 1) {
+                    wx.config({
+                        debug: false,
+                        appId: res.data.appId,
+                        timestamp: res.data.timestamp,
+                        nonceStr: res.data.nonceStr,
+                        signature: res.data.signature,
+                        jsApiList: [
+                            "onMenuShareTimeline",
+                            "onMenuShareAppMessage",
+                            "onMenuShareQQ",
+                            "onMenuShareQZone"
+                        ]
+                    });
+                }
+            }
+        });
+
+        wx.ready(function () {
+
+            var wechatParams = {};
+            wechatParams.title = "寻宠寻主新方式";
+            wechatParams.desc = "寻宠寻主太闹心？免费一键发布“寻主&寻宠”信息，云端备份全民救助少担心。";
+            wechatParams.link = getAuthURL() + 'index.html';
+            wechatParams.imgUrl = getResourceUlr() + 'upload/picture/petLove.png';
+            /**
+             * 分享好友
+             */
+            wx.onMenuShareAppMessage({
+
+                title: wechatParams.title,
+                desc: wechatParams.desc,
+                link: wechatParams.link,
+                imgUrl: wechatParams.imgUrl,
+                success: function () {
+                    $.toast("分享成功")
+                },
+                cancel: function () {
+                },
+                fail: function () {
+                }
+
+            });
+
+            /**
+             * 朋友圈
+             */
+            wx.onMenuShareTimeline({
+
+                title: wechatParams.title,
+                desc: wechatParams.desc,
+                link: wechatParams.link,
+                imgUrl: wechatParams.imgUrl,
+                success: function () {
+                    $.toast("分享成功")
+                }, cancel: function () {
+
+                }
+            });
+
+            /**
+             * 分享到QQ
+             */
+            wx.onMenuShareQQ({
+                title: wechatParams.title,
+                desc: wechatParams.desc,
+                link: getAuthUrl(),
+                imgUrl: wechatParams.imgUrl,
+                success: function () {
+                    $.toast("分享成功")
+                },
+                cancel: function () {
+                },
+                fail: function () {
+                }
+            });
+            /**
+             * 分享到qq空间
+             */
+            wx.onMenuShareQZone({
+                title: wechatParams.title,
+                desc: wechatParams.desc,
+                link: getAuthUrl(),
+                imgUrl: wechatParams.imgUrl,
+                success: function () {
+                    $.toast("分享成功")
+                },
+                cancel: function () {
+                },
+                fail: function () {
+                }
+            });
+            /*    wx.onMenuShareWeibo({
+                    title: '这是一条测试的title',
+                    desc: '从前有一只大鱼和一只小鱼。有一天 小鱼问大鱼：大～鱼～大～鱼～你～平～常～喜～欢～吃～什～么～丫。大鱼说：我～喜～欢～吃～说～话～慢～的～小～鱼。然后小鱼说：喔 酱紫 造了！',
+                    //link: 'http://girl.nat300.top/pethome/index.html?openid=' + GetQueryString("openid"),
+                    link: 'http://girl.nat300.top/pethome/wechat/webAuth?returnUrl=http://girl.nat300.top/pethome/index.html',
+                    imgUrl: 'https://avatars3.githubusercontent.com/u/12826895?s=460&v=4',
+                    success: function () {
+                    },
+                    cancel: function () {
+                    }
+                });*/
+        });
+    });
+
+    var app = new Vue({
+        el: "#index",
+        data: {
+            //是否认证
+            isAuthority: false,
+            dynamicArr: []
+        },
+        mounted: function () {
+            this.loadDynamicList();
+
+        },
+        methods: {
+            loadDynamicList: function () {
+
+                $.showIndicator();
+                $.ajax({
+                    url: '/pethome/publish/index/' + GetQueryString("openid"),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: null,
+                    success: function (res) {
+                        if (res.code === 1) {
+                            app.dynamicArr = res.data;
+                            for (var i = 0; i < app.dynamicArr.length; i++) {
+                                app.dynamicArr[i].petImage = app.dynamicArr[i].petImage.split(";")[0];
+                            }
+                        }
+                        $.hideIndicator();
+                    }
+                });
+            },
+            //寻宠
+            loadFindPetList: function () {
+                $.showIndicator();
+                $.ajax({
+                    url: '/pethome/publish/index/' + GetQueryString("openid"),
+                    type: 'GET',
+                    //contentType: 'application/json',
+                    dataType: 'json',
+                    data: {
+                        publishType: 1
+                    },
+                    success: function (res) {
+                        if (res.code === 1) {
+                            app.dynamicArr = res.data;
+                        }
+                        $.hideIndicator();
+                    }
+                });
+            },
+            //寻主
+            loadFindOwnerList: function () {
+                $.showIndicator();
+                $.ajax({
+                    url: '/pethome/publish/index/' + GetQueryString("openid"),
+                    type: 'GET',
+                    //contentType: 'application/json',
+                    dataType: 'json',
+                    data: {
+                        publishType: 2
+                    },
+                    success: function (res) {
+                        if (res.code === 1) {
+                            app.dynamicArr = res.data;
+                        }
+                        $.hideIndicator();
+                    }
+                });
+            },
+
+            loadFindAttentionList: function () {
+                $.showIndicator();
+                $.ajax({
+                    url: '/pethome/dynamic/like/' + GetQueryString("openid"),
+                    type: 'GET',
+                    //contentType: 'application/json',
+                    dataType: 'json',
+                    data: null,
+                    success: function (res) {
+                        if (res.code === 1) {
+                            app.dynamicArr = res.data;
+                        }
+                        $.hideIndicator();
+                    }
+                });
+            },
+            //关注
+            comment: function (id, publisherId) {
+                if (publisherId == GetQueryString("openid")) {
+                    window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+                    return;
+                }
+                $.ajax({
+                    url: '/pethome/user/auth/' + GetQueryString("openid"),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: null,
+                    success: function (res) {
+                        if (res.code === 1) {
+
+                            if (res.data.type == "person") {
+
+                                if (res.data.state == 0) {
+                                    $.modal(goAuthormodal);
+                                } else {
+                                    window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+                                }
+
+                            } else if (res.data.type == "association") {
+
+                                if (res.data.state == 0) {
+
+                                    $.modal(goAuthormodal);
+
+                                } else if (res.data.state == 1) {
+
+                                    window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+
+                                } else if (res.data.state == 2) {
+
+                                    window.location.href = "./ov-state.html?openid=" + GetQueryString("openid") + "&id=" + id;
+                                }
+                            }
+                        } else {
+
+                            $.modal(goAuthormodal);
+                        }
+                    }
+                });
+                //app.isAuthority ? window.location.href = "detail.html?openid=" + GetQueryString("openid") : $.modal(goAuthormodal);
+            },
+            //分享
+            share: function () {
+                openShareRemind();
+            },
+            //关注
+            attention: function (index, id, likeState) {
+
+                var params = {
+                    publishId: id,
+                    dynamicType: 0
+                };
+                if (likeState) {
+                    params.dynamicType = 3;//取关
+                } else {
+                    params.dynamicType = 1;//关注
+                }
+
+                //load data
+                $.ajax({
+                    url: '/pethome/dynamic/like/' + GetQueryString("openid"),
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(params),
+                    success: function (res) {
+                        if (res.data === true) {
+                            if (likeState) {
+                                $.toast("已取关");
+                            } else {
+                                $.toast("已关注");
+                            }
+                            app.dynamicArr[index].likeState = !likeState;
+                        }
+                    }
+                });
+            },
+            entryDetail: function (id, publisherId) {
+                //认证流程
+                //load data
+
+                if (GetQueryString("openid") == publisherId) {
+                    window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+                    return;
+                }
+
+                $.ajax({
+                    url: '/pethome/user/auth/' + GetQueryString("openid"),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: null,
+                    success: function (res) {
+                        if (res.code === 1) {
+
+                            if (res.data.type == "person") {
+
+                                if (res.data.state == 0) {
+                                    $.modal(goAuthormodal);
+                                } else {
+                                    window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+                                }
+
+                            } else if (res.data.type == "association") {
+
+                                if (res.data.state == 0) {
+
+                                    $.modal(goAuthormodal);
+
+                                } else if (res.data.state == 1) {
+
+                                    window.location.href = "./detail.html?openid=" + GetQueryString("openid") + "&id=" + id;
+
+                                } else if (res.data.state == 2) {
+
+                                    window.location.href = "./ov-state.html?openid=" + GetQueryString("openid") + "&id=" + id;
+                                }
+                            }
+                        } else {
+
+                            $.modal(goAuthormodal);
+                        }
+                    }
+                });
+            }
+        }
+    });
+    $.init();
+    // var loading = false;
+    // var maxItems = 100;
+    // var itemsPerLoad = 20;
+    //
+    // function addItems() {
+    //     app.dynamicArr.push({classifyId: 2, publishType: 2, petFindState: 2});
+    // }
+    //
+    // //addItems();
+    // var lastIndex = app.dynamicArr.length;
+    // $(document).on('infinite', '.infinite-scroll', function () {
+    //
+    //     // 如果正在加载，则退出
+    //     if (loading) return;
+    //
+    //     // 设置flag
+    //     loading = true;
+    //
+    //     setTimeout(function () {
+    //         loading = false;
+    //         if (lastIndex >= maxItems) {
+    //             $.detachInfiniteScroll($('.infinite-scroll'));
+    //             $('.infinite-scroll-preloader').remove();
+    //             return;
+    //         }
+    //         addItems();
+    //         lastIndex = app.dynamicArr.length;
+    //     }, 500);
+    // });
+    $(function () {
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto',
+            initialSlide: 1,
+            centeredSlides: true,
+            autoplay: 2000,
+            //spaceBetween: 100,
+            pagination: '.swiper-pagination'
+        });
+        $(".index-nav li").click(function () {
+            $(".index-nav li").removeClass("active");
+            $(this).addClass("active");
+        });
+    });
+
+
+    /**
+     * 提示认证
+     */
+    function closeGoAuthorModal() {
+        $.closeModal();
+    }
+
+    //选择认证类型
+    function goAuthor() {
+        $.modal(selectAuthorTypeModal);
+    }
+
+    function toAuthorPage(type) {
+
+        type == 0 ? window.location.href = "pv.html?openid=" + GetQueryString("openid") : window.location.href = "ov.html?openid=" + GetQueryString("openid");
+    }
+
+    //提示需要认证modal
+    var goAuthormodal = {
+        title: '',
+        afterText: '<div class="author-modal">' +
+        '<div class="close" onClick="closeGoAuthorModal()"><img src="img/icon/icon-modal-close.png"/></div>' +
+        '<div class="avatar"><img src="img/icon/goValidate.png"/></div>' +
+        '<div class="modal-msg">实名认证后可以解锁更多走丢宠物信息</div>' +
+        '<a class="modal-btn" onClick="goAuthor()">去认证</a>' +
+        '</div>',
+    };
+    //选择认证类型modal
+    var selectAuthorTypeModal = {
+        title: '',
+        afterText: '<div class="author-modal">' +
+        '<div class="close" onClick="closeGoAuthorModal()"><img src="img/icon/icon-modal-close.png"/></div>' +
+        //个人认证
+        '<div class="author-item" onClick="toAuthorPage(0)" style="margin-top:1.5rem;">' +
+        '<div class="author-item-inner">' +
+        '<img src="img/icon/pv.png"/><span>个人认证</span>' +
+        '</div>' +
+        '</div>' +
+        '<div class="author-item" onClick="toAuthorPage(1)" style="margin-bottom:1.3rem;">' +
+        '<div class="author-item-inner">' +
+        '<img src="img/icon/ov.png"><span>组织或协会认证</span>' +
+        '</div>' +
+        '</div>' +
+        //组织或协会认证
+        '</div>'
+    };
+</script>
+</body>
+</html>

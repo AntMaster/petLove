@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>协会或组织认证</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+<!-- 个人认证 -->
+<div class="page" id="ovedPage">
+    <div class="content ovedPage-content">
+        <div class="head">
+            <img src="img/icon/ov-head.png" alt=""/>
+            <span>协会或组织认证</span>
+        </div>
+        <!-- 认证中 -->
+        <div v-if="validateState" class="validate-remind" style="height: calc(100% - 2.2rem);">
+            <div class="icon">
+                <img  src="img/icon/validate-ing.png" alt="">
+            </div>
+            <div class="remind-text">信息审核中,请耐心等待~</div>
+            <div class="remind-subtitle"
+                 style="text-align: center;width: 75%;margin: 0 auto;margin-top: .75rem;color: #a5a5a5;font-size: .65rem;">
+                您的信息已经提交,我们会尽快完成审核,请及时在我的页面查看认证结果
+            </div>
+            <a :href="'./index.html?openid='+param" class="remind-btn external">返回首页</a>
+        </div>
+        <!--认证失败-->
+        <div v-if="!validateState" class="validate-remind" style="height: calc(100% - 2.2rem);">
+            <div class="icon">
+                <img  src="img/icon/validate-error.png" alt="">
+            </div>
+            <div class="remind-text">抱歉,认证失败了</div>
+            <div class="remind-subtitle"
+                 style="text-align: center;width: 75%;margin: 0 auto;margin-top: .75rem;color: #a5a5a5;font-size: .65rem;">
+                {{errMsg}}
+            </div>
+            <a :href="'./ov.html?openid='+param"  class="remind-btn external" :class="{remindFail:!validateState}">重新认证</a>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script type='text/javascript' src='libs/l7/light7.min.js'></script>
+<script type='text/javascript' src='js/vue.js'></script>
+<script type='text/javascript' src='js/common.js'></script>
+<script>
+    var ovedPage = new Vue({
+        el: "#ovedPage",
+        data: {
+            validateState: true,
+            param:"",
+            errMsg:'您的信息已经提交,我们会尽快完成审核,请及时在我的页面查看认证结果',
+        },
+        created:function () {
+            this.param = GetQueryString("openid");
+        },
+        mounted: function () {
+            this.init();
+        },
+        methods: {
+            init: function () {
+
+                if(GetQueryString("state") == 2 && GetQueryString("type") == 2){
+
+                    this.validateState = true;
+
+                }else if(GetQueryString("state") == 0 && GetQueryString("type") == 2){
+
+                    this.validateState = false;
+                }
+
+                $.ajax({
+                    url: '/pethome/user/organization/' + GetQueryString("openid"),
+                    type: 'GET',
+                    dataType: 'json',
+                    data: null,
+                    success: function (res) {
+                        if (res.code === 1) {
+                            ovedPage.errMsg= "失败原因：" + res.data.description;
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+
+</html>
