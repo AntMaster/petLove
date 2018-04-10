@@ -130,14 +130,13 @@ $(function () {
 $(".avatar-upload").change(function (e) {
 
 
-    // var data = new FormData();
-    // $.each(e.target.files, function (i, file) {
-    //     data.append("file", file)
-    //
-    // });
+    var data = new FormData();
+    $.each(e.target.files, function (i, file) {
+        data.append("file", file);
+    });
 
 
-    canvasResize(e.target.files[0], {
+  /*  canvasResize(e.target.files[0], {
         crop: false,
         quality: 0.4,
         rotate: 0,
@@ -146,9 +145,9 @@ $(".avatar-upload").change(function (e) {
             alert(baseStr);
         }
     });
+*/
 
-
-  /*  $.ajax({
+    $.ajax({
         url: "/pethome/upload/pet",
         type: 'PUT',
         data: data,
@@ -159,7 +158,7 @@ $(".avatar-upload").change(function (e) {
             if (respond.code)
                 app.cardFormModel.headImgUrl = respond.data;
         }
-    });*/
+    });
 });
 
 function getBirth() {
