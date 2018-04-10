@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class HttpAspect {
 
+    public static void main() {
+        System.out.println(123);
+    }
 
 
 }
