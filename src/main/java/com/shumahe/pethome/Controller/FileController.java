@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -117,6 +118,91 @@ public class FileController {
         return ResultVOUtil.success(path);
     }
 
+
+    @PutMapping(value = "/pettest")
+    public ResultVO petUploadTest(@RequestBody String imgStr) {
+
+
+        String encode = imgStr.split("data:image/jpeg;base64,")[1];
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        // 解密
+        byte[] b;
+        String path = "";
+
+        try {
+            b = decoder.decodeBuffer(imgStr);
+            // 处理数据
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+
+            String fileName = System.currentTimeMillis() + "test.jpg";
+            String filePath = picturePath + File.separator + "picture" + File.separator + "pet" + File.separator;
+
+
+            OutputStream out = new FileOutputStream(filePath + fileName);
+            out.write(b);
+            out.flush();
+            out.close();
+
+            path = "upload/picture/pet/" + fileName;
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ResultVOUtil.success(path);
+
+         /*   String fileName = (System.currentTimeMillis() + file.getOriginalFilename()).replaceAll(";", "");
+            String filePath = picturePath + File.separator + "picture" + File.separator + "pet" + File.separator;
+            try {
+                FileUtil.uploadFile(file.getBytes(), filePath, fileName);
+            } catch (Exception e) {
+                throw new PetHomeException(ResultEnum.FAILURE.getCode(), "文件上传失败");
+            }
+
+            String path = "upload/picture/pet/" + fileName;*/
+
+
+    }
+
+    /**
+
+     * @return
+     * @Description: 将base64编码字符串转换为图片
+     * @Author:
+     * @CreateTime:
+     */
+        /*
+        public static boolean generateImage(String imgStr, String path){
+
+            if (imgStr == null)
+                return false;
+
+            BASE64Decoder decoder = new BASE64Decoder();
+            try {
+                // 解密
+                byte[] b = decoder.decodeBuffer(imgStr);
+                // 处理数据
+                for (int i = 0; i < b.length; ++i) {
+                    if (b[i] < 0) {
+                        b[i] += 256;
+                    }
+                }
+                OutputStream out = new FileOutputStream(path);
+                out.write(b);
+                out.flush();
+                out.close();
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+       }
+*/
 
     /**
      * 相册上传图片

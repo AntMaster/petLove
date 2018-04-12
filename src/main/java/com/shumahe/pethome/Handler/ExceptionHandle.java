@@ -17,10 +17,13 @@ public class ExceptionHandle {
     @ResponseBody
     public ResultVO petHomeException(Exception e) {
         if (e instanceof PetHomeException) {
+
+            log.error("【业务异常】{}", e.getMessage());
             PetHomeException petHomeException = (PetHomeException) e;
             return ResultVOUtil.error(petHomeException.getCode(), petHomeException.getMessage());
         } else {
-            log.error("【系统异常】{}", e);
+
+            log.error("【非业务错误】{}", e);
             return ResultVOUtil.error(999, "累了先休息一下吧");
         }
     }

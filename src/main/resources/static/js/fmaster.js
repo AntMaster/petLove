@@ -213,7 +213,35 @@ $(".petImg-upload").change(function (e) {
         return;
     }
 
-    var data = new FormData();
+
+
+    lrz(this.files[0])
+        .then(function (rst) {
+            // 处理成功会执行
+            $.ajax({
+                url: "/pethome/upload/publish",
+                type: 'PUT',
+                data: rst.formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respond) {
+                    app.petImageArr.push(respond.data);
+                    app.formData.petImage = app.petImageArr.join(";");
+                }
+            });
+
+        })
+        .catch(function (err) {
+            // 处理失败会执行
+        })
+        .always(function () {
+            // 不管是成功失败，都会执行
+        });
+
+
+
+  /*  var data = new FormData();
     $.each(e.target.files, function (i, file) {
         data.append("file", file);
     });
@@ -229,7 +257,7 @@ $(".petImg-upload").change(function (e) {
             app.petImageArr.push(respond.data);
             app.formData.petImage = app.petImageArr.join(";");
         }
-    });
+    });*/
 });
 
 /**

@@ -176,8 +176,8 @@
             var wechatParams = {};
             wechatParams.title = "寻宠寻主新方式";
             wechatParams.desc = "寻宠寻主太闹心？免费一键发布“寻主&寻宠”信息，云端备份全民救助少担心。";
-            wechatParams.link = getAuthURL() + 'index.html';
-            wechatParams.imgUrl = getResourceUlr() + 'upload/picture/petLove.png';
+            wechatParams.link = getAuthURL(window.location.host) + 'index.html';
+            wechatParams.imgUrl = getResourceUlr(window.location.host) + 'upload/picture/petLove.png';
             /**
              * 分享好友
              */
@@ -219,7 +219,7 @@
             wx.onMenuShareQQ({
                 title: wechatParams.title,
                 desc: wechatParams.desc,
-                link: getAuthUrl(),
+                link: getAuthUrlTest(),
                 imgUrl: wechatParams.imgUrl,
                 success: function () {
                     $.toast("分享成功")
@@ -235,7 +235,7 @@
             wx.onMenuShareQZone({
                 title: wechatParams.title,
                 desc: wechatParams.desc,
-                link: getAuthUrl(),
+                link: getAuthUrlTest(),
                 imgUrl: wechatParams.imgUrl,
                 success: function () {
                     $.toast("分享成功")
@@ -304,6 +304,9 @@
                     success: function (res) {
                         if (res.code === 1) {
                             app.dynamicArr = res.data;
+                            for (var i = 0; i < app.dynamicArr.length; i++) {
+                                app.dynamicArr[i].petImage = app.dynamicArr[i].petImage.split(";")[0];
+                            }
                         }
                         $.hideIndicator();
                     }
@@ -323,6 +326,9 @@
                     success: function (res) {
                         if (res.code === 1) {
                             app.dynamicArr = res.data;
+                            for (var i = 0; i < app.dynamicArr.length; i++) {
+                                app.dynamicArr[i].petImage = app.dynamicArr[i].petImage.split(";")[0];
+                            }
                         }
                         $.hideIndicator();
                     }

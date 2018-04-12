@@ -150,4 +150,9 @@ public class PetPublish {
      */
     @LastModifiedDate
     private Date updateTime;
+
+
+
+    private Integer publishNo;
+
 }

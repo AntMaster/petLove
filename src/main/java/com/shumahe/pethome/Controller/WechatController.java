@@ -43,6 +43,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -77,31 +79,31 @@ public class WechatController {
      */
     /*@PostMapping("/templateMsgPush/{openid}")
     @ResponseBody*/
-    public String templateMsgPush( String openId,
-                                   UserApprove userApprove) throws WxErrorException {
+    public String templateMsgPush(String openId,
+                                  UserApprove userApprove) throws WxErrorException {
 
         WxMpConfigStorage configStorage = wxMpService.getWxMpConfigStorage();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd HH:mm:ss");
         String keyword2Msg = "审核通过!";
-        String reMarkMsg = "恭喜您！（"+ userApprove.getOrganizationName() +"）已通过认证，去解锁更多动物信息!";
+        String reMarkMsg = "恭喜您！（" + userApprove.getOrganizationName() + "）已通过认证，去解锁更多动物信息!";
         String reMarkColor = "#2E8800";
-        if (userApprove.getApproveState() == ApproveStateEnum.FAILURE.getCode()){
+        if (userApprove.getApproveState() == ApproveStateEnum.FAILURE.getCode()) {
             keyword2Msg = "审核失败!";
-            reMarkMsg = "很遗憾！（"+ userApprove.getOrganizationName() +"）未能通过认证，"+ userApprove.getDescription() +"!";
+            reMarkMsg = "很遗憾！（" + userApprove.getOrganizationName() + "）未能通过认证，" + userApprove.getDescription() + "!";
             reMarkColor = "#E73631";
         }
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
                 .toUser(openId)
                 .templateId(configStorage.getTemplateId())
-                .url(projectUrlConfig.getWechatMpAuthorize() + "/pethome/index.html?openid="+openId)
+                .url(projectUrlConfig.getWechatMpAuthorize() + "/pethome/index.html?openid=" + openId)
                 .build();
 
         templateMessage
-                .addData(new WxMpTemplateData("first",  "您好，您提交的实名审核已经完成！"))
+                .addData(new WxMpTemplateData("first", "您好，您提交的实名审核已经完成！"))
                 .addData(new WxMpTemplateData("keyword1", "实名认证审核"))
-                .addData(new WxMpTemplateData("keyword2",   keyword2Msg))
+                .addData(new WxMpTemplateData("keyword2", keyword2Msg))
                 .addData(new WxMpTemplateData("keyword3", dateFormat.format(new Date())))
                 .addData(new WxMpTemplateData("remark", reMarkMsg, reMarkColor));
         String msgId = wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
@@ -150,6 +152,8 @@ public class WechatController {
     @GetMapping("/webAuth")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
 
+        returnUrl = Stream.of(returnUrl.split("_")).collect(Collectors.joining("&"));
+
         //1. 配置
         //2. 调用方法
         String url = projectUrlConfig.getWechatMpAuthorize() + "/pethome/wechat/userinfo";
@@ -183,7 +187,6 @@ public class WechatController {
                            @RequestParam("state") String returnUrl) throws WxErrorException {
 
 
-
         WxMpOAuth2AccessToken wxMpOAuth2AccessToken = null;//如果code使用过，5分钟内再次使用会报错。
         WxMpUser user = null;
         try {
@@ -191,24 +194,38 @@ public class WechatController {
             user = wxMpService.oauth2getUserInfo(wxMpOAuth2AccessToken, null);
         } catch (WxErrorException e) {
 
-            log.error("【有异常BBBB】{}", e);
+            log.error("【微信WxErrorException】{}", e);
             //{"errcode":40001,"errmsg":"invalid credential, access_token is invalid or not latest, hints: [ req_id: 4y0XGa0264s152 ]"}
-            if (e.getError().getErrorCode() == 40001){
+            if (e.getError().getErrorCode() == 40001) {
                 wxMpOAuth2AccessToken = wxMpService.oauth2refreshAccessToken(wxMpOAuth2AccessToken.getRefreshToken());
-                log.error("【有异常CCCCC】{}", e);
+                log.error("【有异常】{}", e);
             }
         }
 
         UserBasic userBasic = saveUser(user);
-        if (returnUrl.contains("detail.html")) {//详情页面
 
-            //认证
-            if (userBasic.getApproveState() == 1) {
+
+        /**
+         * 详情页面跳转
+         */
+        if (returnUrl.contains("detail.html")) {
+
+            if (returnUrl.contains("type=myself")) {
+                //转发自己不用认证
                 return "redirect:" + returnUrl + "&openid=" + wxMpOAuth2AccessToken.getOpenId();
-            } else {//未认证
-                return "redirect:" + returnUrl.split("detail.html")[0] + "index.html?openid=" + wxMpOAuth2AccessToken.getOpenId();
-            }
+            } else {
 
+                //转发其他人
+                if (userBasic.getApproveState() == 1) {
+
+                    //已认证
+                    return "redirect:" + returnUrl + "&openid=" + wxMpOAuth2AccessToken.getOpenId();
+                } else {
+
+                    //未认证
+                    return "redirect:" + returnUrl.split("detail.html")[0] + "index.html?openid=" + wxMpOAuth2AccessToken.getOpenId();
+                }
+            }
         } else {
             return "redirect:" + returnUrl + "?openid=" + wxMpOAuth2AccessToken.getOpenId();
         }

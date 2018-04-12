@@ -18,7 +18,7 @@
     <div onClick="remindHide()" class="remindBox">
         <img src="img/share-remind.jpg" />
     </div>
-    <div class="content detailPage-content">
+    <div class="content detailPage-content" style="margin-bottom:2.2rem;">
         <div class="detail-box">
             <div class="card facebook-card">
                 <!-- 标签，寻宠/寻主 -->
@@ -90,12 +90,12 @@
             <!-- 分页 -->
             <div class="segment-box">
                 <div class="item" :class="{active:msgListType=='interactMsg'}" @click="changeList(0)">
-                    <div class="item-title">互动<span>{{detailData.publicMsgCount}}</span></div>
+                    <div class="item-title">互动<span>{{ "（" + detailData.publicMsgCount + "）" }}</span></div>
                     <div class="item-underline"></div>
                 </div>
                 <div class="item" :class="{active:msgListType=='privateMsg'}" @click="changeList(1)">
                     <div class="item-title">
-                        私信<span>{{detailData.privateMsgCount ? detailData.privateMsgCount : ''}}</span></div>
+                        私信<span>{{detailData.privateMsgCount ? "（" + detailData.privateMsgCount + "）" : ''}}</span></div>
                     <div class="item-underline"></div>
                 </div>
             </div>
@@ -130,11 +130,11 @@
                 </li>
             </ul>
         </div>
-        <!-- 回复栏 -->
-        <div class="comment-box">
-            <input type="text" v-model="commentContent" :placeholder="placeholderText"/>
-            <a class="send" @click="sendComment">发送</a>
-        </div>
+    </div>
+    <!-- 回复栏 -->
+    <div class="comment-box" style="position: fixed;">
+        <input type="text" v-model="commentContent" :placeholder="placeholderText"/>
+        <a class="send" @click="sendComment">发送</a>
     </div>
 </div>
 <script src=" https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js "></script>

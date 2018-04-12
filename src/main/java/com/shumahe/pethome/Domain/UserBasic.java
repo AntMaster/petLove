@@ -3,12 +3,16 @@ package com.shumahe.pethome.Domain;
 import com.shumahe.pethome.Enums.ApproveTypeEnum;
 import com.shumahe.pethome.Enums.BooleanEnum;
 import lombok.Data;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "member")
+@EntityListeners(AuditingEntityListener.class)
 public class UserBasic {
 
     @Id
@@ -40,6 +44,11 @@ public class UserBasic {
 
     @Column(name = "mobile")
     private String mobile;
+
+
+    @LastModifiedDate
+    @Column(name = "modifydate")
+    private Date modifyDate;
 
 
 }

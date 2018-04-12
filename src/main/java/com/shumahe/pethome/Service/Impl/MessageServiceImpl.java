@@ -16,11 +16,15 @@ import com.shumahe.pethome.Service.MessageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -401,7 +405,11 @@ public class MessageServiceImpl implements MessageService {
         }
 
         if (talks.isEmpty()) {
+            ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            String path = requestAttributes.getRequest().getSession().getServletContext().getRealPath("/");
+            System.out.println(path);
             throw new PetHomeException(ResultEnum.RESULT_EMPTY.getCode(), "私信消息为空");
+            //throw  new RuntimeException("123");
         }
 
 

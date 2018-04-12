@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="libs/l7/light7.min.css">
+    <link rel="stylesheet" href="dest/all.min.css">
+</head>
+
+<body>
+    <div class="page" id="detailPage">
+        <div class="content detailPage-content">
+            <div class="detail-box">
+                <div class="card facebook-card">
+                    <!-- 标签，寻宠/寻主 -->
+                    <div class="card-tag">
+                        <div class="tag-title flex-center" :class="[{xunzhu:detailData.publishType == 2},{found:detailData.petFindState == 1}]">{{detailData.publishType == 1 ? "寻宠":"寻主"}}</div>
+                        <img class="tag-img" v-if="detailData.classifyId == 2 && !detailData.findState" src="img/icon/icon-miao.png" />
+                        <img class="tag-img" v-if="detailData.classifyId == 2 && detailData.findState" src="img/icon/icon-miao-found.png" />
+                        <img class="tag-img" v-if="detailData.classifyId == 3 && !detailData.findState" src="img/icon/icon-wang.png" />
+                        <img class="tag-img" v-if="detailData.classifyId == 3 && detailData.findState" src="img/icon/icon-wang-found.png" />
+                    </div>
+                    <div class="card-header no-border">
+                        <div class="facebook-avatar">
+                                <div class="user-validate">
+                                        <img src="img/icon/user-ov.jpg" alt="">
+                                    </div>
+                            <img src="http://gqianniu.alicdn.com/bao/uploaded/i4//tfscom/i3/TB10LfcHFXXXXXKXpXXXXXXXXXX_!!0-item_pic.jpg_250x250q60.jpg" width="34" height="34">
+                        </div>
+                        <div class="facebook-name">{{detailData.publisherName}}</div>
+                        <div class="facebook-date">{{detailData.createTime}}</div>
+                    </div>
+                    <div class="card-content">
+                        宠物名字：{{detailData.petName}}
+                        <br> 宠物性别：公
+                        <br> 宠物品种：{{detailData.varietyName}}
+                        <br> 丢失日期：{{detailData.lostTime}} <br> 丢失地点：{{detailData.lostLocation}}
+                        <br> 主人姓名：{{detailData.ownerName}}
+                        <br> 联系方式：
+                        <a :href="'tel:'+detailData.ownerContact" class="external">联系TA</a><br> 描述：{{detailData.petDescription}}<br>
+                        <!-- 如果消息内包含图片 -->
+                        <div class="card-content-imgs">
+                            <!-- <img v-for="item in imgList" :src="item" alt=""> -->
+                            <img src="img/test/avatar.jpg" alt="">
+                            <img src="img/test/cat.jpg" alt="">
+                        </div>
+                        <!-- 分享 -->
+                        <div class="action-box">
+                            <!-- 浏览次数 -->
+                            <div class="view">
+                                <img src="img/icon/card-look.png">
+                                <span>{{detailData.viewCount}}</span>
+                            </div>
+                            <!-- 分享 -->
+                            <div class="share">
+                                <img src="img/icon/card-share.png" alt="">
+                                <span>{{detailData.shareCount}}</span>
+                            </div>
+                            <!-- 关注 -->
+                            <div class="attention">
+                                <img src="img/icon/card-zan.png" alt="">
+                                <span>关注</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 按钮 找到了 -->
+            <div class="action-box">
+                <a>找到了</a>
+            </div>
+            <div id="msg-box" class="msg-box">
+                <!-- 分页 -->
+                <div class="segment-box">
+                    <div class="item" :class="{active:msgListType}" @click="changeList">
+                        <div class="item-title">互动<span>{{detailData.publicMsgCount}}</span></div>
+                        <div class="item-underline"></div>
+                    </div>
+                    <div class="item" :class="{active:!msgListType}" @click="changeList">
+                        <div class="item-title">私信<span>{{detailData.privateMsgCount ? detailData.privateMsgCount : ''}}</span></div>
+                        <div class="item-underline"></div>
+                    </div>
+                </div>
+                <!-- 提示 -->
+                <div class="remind">
+                    为保障宠物安全，请使用私信提供线索
+                </div>
+                <!-- 消息列表 -->
+                <ul class="messageList">
+                    <li v-for="(items,index) in showMsgList">
+                        <div class="card facebook-card"><a class="reply-btn open-reply-modal" @click="reply(index)">回复</a>
+                            <div class="card-header no-border">
+                                <div class="facebook-avatar">
+                                        <div class="user-validate">
+                                                <img src="img/icon/user-ov.jpg" alt="">
+                                            </div>
+                                    <img :src="items[0].replierFromPhoto" width="34" height="34">
+                                </div>
+                                <div class="facebook-name">{{items[0].replierFromName}}</div>
+                                <div class="item-comment">{{items[0].content}}</div>
+                            </div>
+                            <div class="card-content" v-if="items.length > 1">
+                                <ul class="reply-box">
+                                    <li v-for="(item, index) in items" v-if="index > 0 && index < 3"><a>{{item.replierFromName}}：</a>{{item.content}}</li>
+                                    <a v-if="items.length > 2" @click="expand">展开全部8条回复</a>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- 回复栏 -->
+            <div class="comment-box">
+                <input type="text" />
+                <a class="send" @click="sendComment">回复</a>
+            </div>
+        </div>
+    </div>
+    <script src=" https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js "></script>
+    <script type='text/javascript' src='libs/l7/light7.min.js'></script>
+    <script type='text/javascript' src='js/vue.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0 "></script>
+    <script type='text/javascript' src='js/common.js'></script>
+    <script type='text/javascript' src='js/components.js'></script>
+    <script type="text/javascript " src='js/detail.js'></script>
+</body>
+
+</html>

@@ -1,24 +1,34 @@
 //document.documentElement.style.fontSize = document.documentElement.clientWidth / 640 * 100 + 'px';
 
-function openShareRemind(){
+function openShareRemind() {
 
     $(".remindBox").fadeIn();
 }
-function remindHide(){
+
+function remindHide() {
     $(".remindBox").fadeOut();
 }
 
-function getAuthURL(){
-    return "http://act.petin.com.cn/pethome/wechat/webAuth?returnUrl=http://act.petin.com.cn/pethome/";
+function getAuthURL(host) {
+    //return "http://act.petin.com.cn/pethome/wechat/webAuth?returnUrl=http://act.petin.com.cn/pethome/";
+    var domainObj = {
+        "girl.nat300.top": "http://girl.nat300.top/pethome/wechat/webAuth?returnUrl=http://girl.nat300.top/pethome/",
+        "act.petin.com.cn": "http://act.petin.com.cn/pethome/wechat/webAuth?returnUrl=http://act.petin.com.cn/pethome/"
+    };
+    return domainObj[host];
 }
 
-function getAuthUrl() {
-    return  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx41fd8229749f5df8&redirect_uri=" +
-            "http://girl.nat300.top/pethome/index.html&response_type=code&scope=snsapi_userinfo&state=a#wechat_redirect";
+function getAuthUrlTest() {
+    return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx41fd8229749f5df8&redirect_uri=" +
+        "http://girl.nat300.top/pethome/index.html&response_type=code&scope=snsapi_userinfo&state=a#wechat_redirect";
 }
 
-function  getResourceUlr() {
-    return "http://act.petin.com.cn/pethome/";
+function getResourceUlr(host) {
+    var doaminObj = {
+        "girl.nat300.top": "http://girl.nat300.top/pethome/",
+        "act.petin.com.cn": "http://act.petin.com.cn/pethome/"
+    }
+    return doaminObj[host];
 }
 
 Date.prototype.Format = function (fmt) { //author: meizz
@@ -50,45 +60,46 @@ function petCardAdaptive() {
     var ScreenWidth = document.body.clientWidth;
     if (ScreenWidth < 350) {
         $(".petCard-item").css("height", petCardWidth * 0.7);
-        $(".avatar").css({ "height": "3rem", "width": "3rem", "border-radius": "1.5rem" })
+        $(".avatar").css({"height": "3rem", "width": "3rem", "border-radius": "1.5rem"})
     } else {
         $(".petCard-item").css("height", petCardWidth * 0.62);
     }
 }
 
 //打开和插入菜单
-function openMenu(){
+function openMenu() {
 
     var openid = GetQueryString("openid")
 
     var menuBox = $(".menu-box");
-    if(menuBox.length > 0){
+    if (menuBox.length > 0) {
         $(".menu-box").fadeIn();
         return false;
     }
-    var menuDiv = '<div class="menu-box" onClick="">'+
+    var menuDiv = '<div class="menu-box" onClick="">' +
         //logo
-        '<div class="menu-head"><img src="img/menu-head.png"></div>'+
+        '<div class="menu-head"><img src="img/menu-head.png"></div>' +
         //button
-        '<div class="menu-button-box">'+
-        '<a href= "fpet.html?openid='+openid+'" class="external"><img src="img/icon/menu-fpet.png"><span>发布寻宠</span></a>'+
-        '<a href="fmaster.html?openid='+openid+'" class="external"><img src="img/icon/menu-fmaster.png"><span>发布寻主</span></a>'+
-        '<a onclick="entryPet()"  class="external"><img src="img/icon/menu-card.png"><span>创建宠卡</span></a>'+
-        '</div>'+
+        '<div class="menu-button-box">' +
+        '<a href= "fpet.html?openid=' + openid + '" class="external"><img src="img/icon/menu-fpet.png"><span>发布寻宠</span></a>' +
+        '<a href="fmaster.html?openid=' + openid + '" class="external"><img src="img/icon/menu-fmaster.png"><span>发布寻主</span></a>' +
+        '<a onclick="entryPet()"  class="external"><img src="img/icon/menu-card.png"><span>创建宠卡</span></a>' +
+        '</div>' +
         //closeBtn
         '<div class="menu-close"><img onClick="menuHide()" src="img/icon/menu-close.png"></div>'
     '</div>';
     $(".page").prepend(menuDiv);
     $(".menu-box").fadeIn();
 }
+
 //隐藏菜单
-function menuHide(){
+function menuHide() {
     $(".menu-box").fadeOut();
 
 }
 
 
-function entryPet(){
+function entryPet() {
 
     $.ajax({
         url: '/pethome/pet/' + GetQueryString("openid"),
@@ -97,30 +108,30 @@ function entryPet(){
         data: null,
         success: function (res) {
 
-            if(res.code == 1){
+            if (res.code == 1) {
                 window.location.href = "./card-list.html?openid=" + GetQueryString("openid");
-            }else {
+            } else {
                 window.location.href = "./card-index.html?openid=" + GetQueryString("openid");
             }
-          /*  if (res.code === 1) {
+            /*  if (res.code === 1) {
 
-                if (temp_lv == 2) {
+                  if (temp_lv == 2) {
 
-                    window.location.href = "../card-list.html?openid=" + GetQueryString("openid");
+                      window.location.href = "../card-list.html?openid=" + GetQueryString("openid");
 
-                } else {
+                  } else {
 
-                    window.location.href = "card-list.html?openid=" + GetQueryString("openid");
-                }
+                      window.location.href = "card-list.html?openid=" + GetQueryString("openid");
+                  }
 
-            } else {
+              } else {
 
-                if (temp_lv == 2) {
-                    window.location.href = "../card-index.html?openid=" + GetQueryString("openid");
-                } else {
-                    window.location.href = "card-index.html?openid=" + GetQueryString("openid");
-                }
-            }*/
+                  if (temp_lv == 2) {
+                      window.location.href = "../card-index.html?openid=" + GetQueryString("openid");
+                  } else {
+                      window.location.href = "card-index.html?openid=" + GetQueryString("openid");
+                  }
+              }*/
         }
     });
 
@@ -133,129 +144,129 @@ varietyArrDataSource = {
         "id": 3,
         "classifyId": 2,
         "name": "田园猫",
-        'icon':'img/petvariety/cat3.png'
+        'icon': 'img/petvariety/cat3.png'
     },
         {
             "id": 13,
             "classifyId": 2,
             "name": "英短",
-            'icon':'img/petvariety/cat13.png'
+            'icon': 'img/petvariety/cat13.png'
         },
         {
             "id": 14,
             "classifyId": 2,
             "name": "美短",
-            'icon':'img/petvariety/cat14.png'
+            'icon': 'img/petvariety/cat14.png'
         },
         {
             "id": 15,
             "classifyId": 2,
             "name": "加菲猫",
-            'icon':'img/petvariety/cat15.png'
+            'icon': 'img/petvariety/cat15.png'
         },
         {
             "id": 16,
             "classifyId": 2,
             "name": "蓝猫",
-            'icon':'img/petvariety/cat16.png'
+            'icon': 'img/petvariety/cat16.png'
         },
         {
             "id": 19,
             "classifyId": 2,
             "name": "波斯猫",
-            'icon':'img/petvariety/cat19.png'
+            'icon': 'img/petvariety/cat19.png'
         },
         {
             "id": 39,
             "classifyId": 2,
             "name": "橘猫",
-            'icon':'img/petvariety/cat39.png'
+            'icon': 'img/petvariety/cat39.png'
         },
         {
             "id": 41,
             "classifyId": 2,
             "name": "其它",
-            'icon':'img/petvariety/cat41.png'
+            'icon': 'img/petvariety/cat41.png'
         }
     ],
     "3": [{
         "id": 9,
         "classifyId": 3,
         "name": "田园犬",
-        'icon':'img/petvariety/dog9.png'
+        'icon': 'img/petvariety/dog9.png'
     },
         {
             "id": 5,
             "classifyId": 3,
             "name": "金毛",
-            'icon':'img/petvariety/dog5.png'
+            'icon': 'img/petvariety/dog5.png'
         },
         {
             "id": 6,
             "classifyId": 3,
             "name": "哈士奇",
-            'icon':'img/petvariety/dog6.png'
+            'icon': 'img/petvariety/dog6.png'
         },
         {
             "id": 20,
             "classifyId": 3,
             "name": "萨摩耶",
-            'icon':'img/petvariety/dog20.png'
+            'icon': 'img/petvariety/dog20.png'
         },
         {
             "id": 10,
             "classifyId": 3,
             "name": "泰迪",
-            'icon':'img/petvariety/dog10.png'
+            'icon': 'img/petvariety/dog10.png'
         },
         {
             "id": 7,
             "classifyId": 3,
             "name": "拉布拉多",
-            'icon':'img/petvariety/dog7.png'
+            'icon': 'img/petvariety/dog7.png'
         },
         {
             "id": 25,
             "classifyId": 3,
             "name": "雪纳瑞",
-            'icon':'img/petvariety/dog25.png'
+            'icon': 'img/petvariety/dog25.png'
         },
         {
             "id": 18,
             "classifyId": 3,
             "name": "阿拉斯加",
-            'icon':'img/petvariety/dog18.png'
+            'icon': 'img/petvariety/dog18.png'
         },
         {
             "id": 22,
             "classifyId": 3,
             "name": "比熊",
-            'icon':'img/petvariety/dog22.png'
+            'icon': 'img/petvariety/dog22.png'
         },
         {
             "id": 29,
             "classifyId": 3,
             "name": "边牧",
-            'icon':'img/petvariety/dog29.png'
+            'icon': 'img/petvariety/dog29.png'
         },
         {
             "id": 21,
             "classifyId": 3,
             "name": "博美",
-            'icon':'img/petvariety/dog21.png'
+            'icon': 'img/petvariety/dog21.png'
         },
         {
             "id": 42,
             "classifyId": 3,
             "name": "其他",
-            'icon':'img/petvariety/dog42.png'
+            'icon': 'img/petvariety/dog42.png'
         }
     ]
 }
 
-function hasNullItem(obj){
+function hasNullItem(obj) {
     for (var key in obj) {
-        if(!obj[key] && (typeof obj[key] != 'number') ){
+        if (!obj[key] && (typeof obj[key] != 'number')) {
             return false;
         }
     }
@@ -275,10 +286,10 @@ $(document).on('close', '.popup-petVariety', function () {
 });
 
 //压缩图片
-function dealImage(path, obj, callback){
+function dealImage(path, obj, callback) {
     var img = new Image();
     img.src = path;
-    img.onload = function(){
+    img.onload = function () {
         var that = this;
         // 默认按比例压缩
         var w = that.width,
@@ -299,7 +310,7 @@ function dealImage(path, obj, callback){
         canvas.setAttributeNode(anh);
         ctx.drawImage(that, 0, 0, w, h);
         // 图像质量
-        if(obj.quality && obj.quality <= 1 && obj.quality > 0){
+        if (obj.quality && obj.quality <= 1 && obj.quality > 0) {
             quality = obj.quality;
         }
         // quality值越小，所绘制出的图像越模糊
@@ -307,4 +318,16 @@ function dealImage(path, obj, callback){
         // 回调函数返回base64的值
         callback(base64);
     }
+}
+
+userMsg = {
+    privateMsgCount: 0,
+    publicMsgCount: 0
+};
+function isShowMsgPoint() {
+    for (var prop in userMsg){
+        if(userMsg[prop] != 0)
+            return true;
+    }
+    return false;
 }

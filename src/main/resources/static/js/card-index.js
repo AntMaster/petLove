@@ -6,7 +6,7 @@ var app = new Vue({
         cardFormModel: {
             nickName: null,
             classifyId: 3,
-            varietyId:9,
+            varietyId: 9,
             headImgUrl: null,
             birthday: null,
             sex: 1,
@@ -17,16 +17,16 @@ var app = new Vue({
         //pet品类数据源
         varietyArrDataSource: [],
         //当前显示品类
-        varietyArr:[],
-        varietyName:''
+        varietyArr: [],
+        varietyName: ''
     },
-    beforeCreate:function () {
+    beforeCreate: function () {
         $.showIndicator();
     },
-    updated:function () {
+    updated: function () {
         $.hideIndicator();
     },
-    mounted:function () {
+    mounted: function () {
         //初始化宠物品类
         this.varietyArrDataSource = varietyArrDataSource;
         this.varietyArr = this.varietyArrDataSource["3"];
@@ -65,14 +65,14 @@ var app = new Vue({
         submit: function () {
 
             $.ajax({
-                url: '/pethome/pet/'+GetQueryString("openid"),
+                url: '/pethome/pet/' + GetQueryString("openid"),
                 type: 'PUT',
                 contentType: "application/x-www-form-urlencoded",
                 dataType: 'json',
                 data: app.cardFormModel,
                 success: function (res) {
                     if (res.code === 1) {
-                        window.location.href = "./card-list.html?openid="+GetQueryString("openid")
+                        window.location.href = "./card-list.html?openid=" + GetQueryString("openid")
                     } else {
                         $.toast(res.msg);
                     }
@@ -88,14 +88,14 @@ $(function () {
 
     var date = new Date();
     var year = date.getFullYear();
-    var month = date.getMonth() +1 ;
+    var month = date.getMonth() + 1;
     var day = date.getDate();
     var today = year + "-" + month + "-" + day;
     //初始化组件
     $("#datetime-picker").calendar({
         maxDate: today,
-        monthNames:['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-        dayNamesShort:['天','一','二','三','四','五','六']
+        monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        dayNamesShort: ['天', '一', '二', '三', '四', '五', '六']
     });
     //判断设备宽度
     var ScreenWidth = document.body.clientWidth;
@@ -126,40 +126,82 @@ $(function () {
 //     }
 // });
 
+/*
+document.querySelector('.avatar-upload').addEventListener('change', function () {
+
+
+    lrz(this.files[0])
+        .then(function (rst) {
+            // 处理成功会执行
+            alert(rst.file.size + "=" + rst.file.type);
+            console.log(rst);
+        })
+        .catch(function (err) {
+            // 处理失败会执行
+        })
+        .always(function () {
+            // 不管是成功失败，都会执行
+        });
+});*/
 
 $(".avatar-upload").change(function (e) {
 
+    // var data = new FormData();
+    // $.each(e.target.files, function (i, file) {
+    //     data.append("file", file)
+    //
+    // });
 
 
-    var data = new FormData();
-    $.each(e.target.files, function (i, file) {
-        data.append("file", file);
-    });
+
+    lrz(this.files[0])
+        .then(function (rst) {
+            // 处理成功会执行
+            $.ajax({
+                url: "/pethome/upload/pet",
+                type: 'PUT',
+                data: rst.formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respond) {
+                    if (respond.code)
+                        app.cardFormModel.headImgUrl = respond.data;
+                }
+            });
 
 
-  /*  canvasResize(e.target.files[0], {
+        })
+        .catch(function (err) {
+            // 处理失败会执行
+        })
+        .always(function () {
+            // 不管是成功失败，都会执行
+        });
+
+
+/*    canvasResize(e.target.files[0], {
         crop: false,
-        quality: 0.4,
+        quality: 0.2,
         rotate: 0,
-        callback:function(baseStr) {
-            //alert(baseStr.length);
-            alert(baseStr);
+        callback: function (baseStr) {
+            alert(baseStr)
         }
-    });
-*/
+    });*/
 
-    $.ajax({
-        url: "/pethome/upload/pet",
-        type: 'PUT',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (respond) {
-            if (respond.code)
-                app.cardFormModel.headImgUrl = respond.data;
-        }
-    });
+
+    /*  $.ajax({
+          url: "/pethome/upload/pet",
+          type: 'PUT',
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (respond) {
+              if (respond.code)
+                  app.cardFormModel.headImgUrl = respond.data;
+          }
+      });*/
 });
 
 function getBirth() {

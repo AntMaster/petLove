@@ -261,22 +261,44 @@ $("#upPic").change(function (e) {
     $.each(e.target.files, function (i, file) {
         data.append("file", file);
     });
-
     data.append("albumid", GetQueryString("albumid"));
 
 
-    $.ajax({
-        url: "/pethome/upload/album",
-        type: 'PUT',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (res) {
-            app.photoConfArr.push(app.photo_unselect);
-            app.photoList.push(res.data);
-        }
-    });
+    lrz(this.files[0])
+        .then(function (rst) {
+
+            rst.formData.append("albumid", GetQueryString("albumid"));
+
+            $.ajax({
+                url: "/pethome/upload/album",
+                type: 'PUT',
+                data: rst.formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    app.photoConfArr.push(app.photo_unselect);
+                    app.photoList.push(res.data);
+                }
+            });
+
+
+
+        })
+        .catch(function (err) {
+            // 处理失败会执行
+        })
+        .always(function () {
+            // 不管是成功失败，都会执行
+        });
+
+
+
+
+
+
+
+
 });
 
 //设置照片框样式

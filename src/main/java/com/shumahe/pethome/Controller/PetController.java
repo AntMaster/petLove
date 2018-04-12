@@ -77,7 +77,7 @@ public class PetController {
 
         //验证表单数据是否正确
         if (bindingResult.hasErrors()) {
-            log.error("【添加宠卡】参数不正确,petForm={}", petForm);
+            log.info("【添加宠卡】参数不正确,petForm={}", petForm);
             throw new PetHomeException(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
         }
 

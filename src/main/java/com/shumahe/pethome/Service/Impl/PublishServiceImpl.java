@@ -127,15 +127,17 @@ public class PublishServiceImpl implements PublishService {
         /**
          * 转换为PetPublish对象
          */
-
         PetPublish petPublish = new PetPublish();
         copyProperties(petForm, petPublish);
+
 
         //未转换成功的字段
         petPublish.setPublishType(PublishTypeEnum.SEARCH_PET.getCode());
         petPublish.setLostTime(new DateStringConverter().fromString(petForm.getLostTime()));
 
-        return petPublishRepository.save(petPublish);
+        PetPublish save = petPublishRepository.save(petPublish);
+        save.setPublishNo(10000 + save.getId());//加编号
+        return petPublishRepository.save(save);
     }
 
     /**

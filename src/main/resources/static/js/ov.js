@@ -99,22 +99,36 @@ function verify() {
 
 $("#upload").change(function (e) {
 
-    var data = new FormData();
+  /*  var data = new FormData();
     $.each(e.target.files, function (i, file) {
         data.append("file", file);
-    });
+    });*/
 
 
-    $.ajax({
-        url: "/pethome/upload/auth",
-        type: 'PUT',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (respond) {
-            app.formData.organizationImage = respond.data;
-        }
-    });
+    lrz(this.files[0])
+        .then(function (rst) {
+            // 处理成功会执行
+            $.ajax({
+                url: "/pethome/upload/auth",
+                type: 'PUT',
+                data: rst.formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respond) {
+                    app.formData.organizationImage = respond.data;
+                }
+            });
+        })
+        .catch(function (err) {
+            // 处理失败会执行
+        })
+        .always(function () {
+            // 不管是成功失败，都会执行
+        });
+
+
+
+
 
 });

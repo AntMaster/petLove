@@ -1,6 +1,6 @@
 server:
   context-path: /pethome
-
+  port: 8088
 #spring:
 #  datasource:
 #    driver-class-name: com.mysql.jdbc.Driver
@@ -64,7 +64,7 @@ web:
     password: Tch147258
     url: http://222.73.117.156/msg/HttpBatchSendSM
 
-picturePath: C:/petlove/upload/
+picturePath: D:/petlove/upload/
 
 
 wechat:

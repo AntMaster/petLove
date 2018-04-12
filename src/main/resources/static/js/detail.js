@@ -10,11 +10,11 @@ var app = new Vue({
         //当前展示列表
         showMsgList: [],
         //控制展开的配置数组
-        msgListConfArr:[],
-        msgListConfType:{
-            df:{state:0, btnText:''},
-            expand:{state:1,btnText:'展开'},
-            hide:{state:2,btnText:'收起'}
+        msgListConfArr: [],
+        msgListConfType: {
+            df: {state: 0, btnText: ''},
+            expand: {state: 1, btnText: '展开'},
+            hide: {state: 2, btnText: '收起'}
         },
         //私信列表数据是否为空
         privateMsgListNull: true,
@@ -54,37 +54,36 @@ var app = new Vue({
                         if (app.detailData.publisherId == GetQueryString("openid")) {
                             app.isAuthority = true;
                         }
-
                         app.wechatInit();
-
                     } else {
                         $.toast(res.msg);
+                        app.wechatInit();
                     }
                 }
             });
         },
-        configExpandType:function (arr) {
+        configExpandType: function (arr) {
 
-            if(!arr)
+            if (!arr)
                 return false;
             //reply条数过多自动隐藏
-            for(var i = 0 ; i < arr.length; i++){
-               if(arr[i].length > 3){
-                   this.msgListConfArr.push(this.msgListConfType.expand);
-               }
-               else{
-                   this.msgListConfArr.push(this.msgListConfType.df);
-               }
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].length > 3) {
+                    this.msgListConfArr.push(this.msgListConfType.expand);
+                }
+                else {
+                    this.msgListConfArr.push(this.msgListConfType.df);
+                }
             }
         },
         //展开所有评论
-        expand:function (index) {
-            if(this.msgListConfArr[index].state == 1){
-                    //展开
-                this.msgListConfArr.splice(index,1,this.msgListConfType.hide);
-            }else{
-                    //收起
-                this.msgListConfArr.splice(index,1,this.msgListConfType.expand);
+        expand: function (index) {
+            if (this.msgListConfArr[index].state == 1) {
+                //展开
+                this.msgListConfArr.splice(index, 1, this.msgListConfType.hide);
+            } else {
+                //收起
+                this.msgListConfArr.splice(index, 1, this.msgListConfType.expand);
             }
         },
         wechatInit: function () {
@@ -107,10 +106,7 @@ var app = new Vue({
                             signature: res.data.signature,// 必填，签名，见附录1
                             jsApiList: [
                                 "onMenuShareTimeline",
-                                "onMenuShareAppMessage",
-                                "onMenuShareQQ",
-                                "onMenuShareQZone",
-                                "onMenuShareWeibo"
+                                "onMenuShareAppMessage"
                             ]
                         });
                     }
@@ -121,7 +117,7 @@ var app = new Vue({
         found: function (publisherId) {
 
             if (GetQueryString("openid") != publisherId) {
-                alert("您不是主题发布者,不能操作此选项");
+                $.toast("您不是主题发布者,不能操作此选项");
             }
 
             if (app.detailData.findState) {
@@ -235,7 +231,7 @@ var app = new Vue({
         sendComment: function () {
 
             if (!this.commentContent) {
-                alert("请输入回复内容");
+                $.toast("请输入回复内容");
                 return;
             }
 
@@ -260,6 +256,7 @@ var app = new Vue({
                 }
             }
 
+            $.showPreloader();
             $.ajax({
                 url: url,
                 type: 'PUT',
@@ -271,7 +268,6 @@ var app = new Vue({
                         if (!app.showMsgList) {
                             app.showMsgList = new Array();
                         }
-                        console.log(res.data);
                         app.showMsgList.push([res.data]);
                         app.commentContent = '';
                         if (app.msgListType == "interactMsg")
@@ -279,6 +275,7 @@ var app = new Vue({
                     } else {
                         $.toast(res.msg);
                     }
+                    $.hidePreloader();
                 }
             });
         },
@@ -343,26 +340,35 @@ var app = new Vue({
 
 
 $(function () {
+    //重置一下滚动条
 
+    $.init();
     wx.ready(function () {
 
+        console.log(app.detailData);
+
         var wechatParams = {};
-        var publishType = app.detailData.publishType;
-        if (publishType == 1) {
+        var detailData = app.detailData;
+
+        if (detailData.publishType == 1) {
             wechatParams.title = '"寻宠"宝贝快回家';
-            wechatParams.desc = "宠物丢了别着急，一键上传丢失爱宠信息，全平台发布及时反馈助力爱宠找回更容易。";
         } else {
             wechatParams.title = '"寻主”主人你在哪？';
-            wechatParams.desc = "路遇流浪动物不糟心，随手上传为它创立云端信息，云端储存快速匹配传爱心。";
         }
-        wechatParams.link = getAuthURL() + 'detail.html?id=' + GetQueryString("id");
-        wechatParams.imgUrl = getResourceUlr() + 'upload/picture/petLove.png';
+        if (GetQueryString("openid") == detailData.publisherId) {
+            wechatParams.link = getAuthURL(window.location.host) + 'detail.html?id=' + GetQueryString("id") + "_type=myself";
+        } else {
+            wechatParams.link = getAuthURL(window.location.host) + 'detail.html?id=' + GetQueryString("id");
+        }
+
+        wechatParams.imgUrl = getResourceUlr(window.location.host) + detailData.petImage.split(";")[0];
+        wechatParams.desc = detailData.petDescription;
+
 
         /**
          * 分享好友
          */
         wx.onMenuShareAppMessage({
-
             title: wechatParams.title,
             desc: wechatParams.desc,
             link: wechatParams.link,

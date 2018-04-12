@@ -223,23 +223,36 @@ $(".petImg-upload").change(function (e) {
         $.toast("图片最多只能上传三张");
         return;
     }
-    var data = new FormData();
+  /*  var data = new FormData();
     $.each(e.target.files, function (i, file) {
         data.append("file", file);
-    });
+    });*/
 
-    $.ajax({
-        url: "/pethome/upload/publish",
-        type: 'PUT',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (respond) {
-            app.petImageArr.push(respond.data);
-            app.formData.petImage = app.petImageArr.join(";");
-        }
-    });
+
+    lrz(this.files[0])
+        .then(function (rst) {
+            // 处理成功会执行
+            $.ajax({
+                url: "/pethome/upload/publish",
+                type: 'PUT',
+                data: rst.formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (respond) {
+                    app.petImageArr.push(respond.data);
+                    app.formData.petImage = app.petImageArr.join(";");
+                }
+            });
+
+        })
+        .catch(function (err) {
+            // 处理失败会执行
+        })
+        .always(function () {
+            // 不管是成功失败，都会执行
+        });
+
 
     /*
         //创建FormData对象

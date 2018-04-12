@@ -1,13 +1,30 @@
-SQL server
+--test server
+114.55.38.33
+administrator
+3327132713shumahe!
+
+--pro server
 118.31.9.90
 administrator
 petin520CQ
 
---local 
-118.31.9.90
+
+--test SQL
+Server=114.55.38.33
+Database=PawLove
+uid=iShumahe
+pwd=1qaz2wsx3edc!@#
+
+
+--pro SQL
+Server=118.31.9.90
+Database=PawLove
 uid:sa
 pwd:petin520
 
+
+账号：舒马赫科技
+密码：280SHUmahe
 IP：114.55.38.33
 密码：3327132713shumahe!
 
@@ -16,13 +33,6 @@ IP：114.55.38.33
 账号:kedoujuli@qq.com
 密码:shumahekeji518
 appid:wx41fd8229749f5df8
-app Secret:76cde729d3bbf04728661309549298f5
+appSecret:76cde729d3bbf04728661309549298f5
 token:ishumahe160107
-
-
-Server=114.55.38.33
-Database=PawLove
-uid=iShumahe
-pwd=1qaz2wsx3edc!@#
-
 
