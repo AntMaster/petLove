@@ -16,7 +16,7 @@
 <body>
     <div class="page" id="cardListPage">
         <!-- tabbar -->
-        <mc-tabbar page="card"></mc-tabbar>
+        <mc-tabbar page="card" :has-msg="showMsg"></mc-tabbar>
         <div class="content cardListPage-content">
             <ul class="petCard-list">
                 <li v-for="(item, index) in petArr">

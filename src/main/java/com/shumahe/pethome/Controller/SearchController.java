@@ -5,18 +5,18 @@ import com.shumahe.pethome.Enums.ResultEnum;
 import com.shumahe.pethome.Exception.PetHomeException;
 import com.shumahe.pethome.Form.PetSearchForm;
 import com.shumahe.pethome.Service.SearchService;
+import com.shumahe.pethome.Service.UserService;
 import com.shumahe.pethome.Util.ResultVOUtil;
 import com.shumahe.pethome.VO.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -27,6 +27,9 @@ public class SearchController {
 
     @Autowired
     SearchService searchService;
+
+    @Autowired
+    UserService userService;
 
     /**
      * 宠物搜索
@@ -48,11 +51,15 @@ public class SearchController {
     }
 
 
-    @GetMapping("/init")
-    public ResultVO searchInit() {
+    @GetMapping("/init/{openid}")
+    public ResultVO searchInit(@PathVariable("openid") String openid) {
 
         List<PublishDTO> publishDTOS = searchService.init();
-        return ResultVOUtil.success(publishDTOS);
+
+        Map<String,Object>  res = new HashMap<>();
+        res.put("list",publishDTOS);
+        res.put("showMsgPoint",userService.isShowMsgPoint(openid));
+        return ResultVOUtil.success(res);
     }
 
 

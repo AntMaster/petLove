@@ -53,13 +53,16 @@ public class AdminController {
         return ResultVOUtil.success(all);
     }
 
-    /**
-     * 显示 隐藏 发布
-     *
-     * @param id
-     * @param publishState
-     * @return
-     */
+
+        /**
+         *
+         * @Description:
+         * @Author:         zhangy
+         * @CreateDate:     2018/4/12 19:01
+         * @UpdateUser:
+         * @UpdateDate:     2018/4/12 19:01
+         * @UpdateRemark:   The modified content
+         */
     @PostMapping("/publish/{id}")
     public ResultVO modifyShowState(@PathVariable("id") Integer id, @RequestParam("publishState") Integer publishState) {
 
@@ -83,7 +86,7 @@ public class AdminController {
             throw new PetHomeException(ResultEnum.PARAM_ERROR);
         }
 
-        List<Map<String, String>> dynamic = adminService.findDynamic(id, dynamicType, day);
+        Map<String, Object> dynamic = adminService.findDynamic(id, dynamicType, day);
         return ResultVOUtil.success(dynamic);
     }
 
@@ -214,7 +217,7 @@ public class AdminController {
     public ResultVO findView(@PathVariable("id") Integer id,
                              @RequestParam(value = "day", defaultValue = "0") Integer day) {
 
-        List<Map<String, String>> view = adminService.findView(id, day);
+        Map<String, Object> view = adminService.findView(id, day);
         return ResultVOUtil.success(view);
     }
 
@@ -223,13 +226,13 @@ public class AdminController {
 
     @GetMapping("/search")
     public ResultVO search(@RequestParam("keywords") String keywords,
-                           @RequestParam(value = "publishType",defaultValue = "0") Integer publishType) {
+                           @RequestParam(value = "publishType", defaultValue = "0") Integer publishType) {
 
         if (publishType == 0) {
             throw new PetHomeException(ResultEnum.PARAM_ERROR);
         }
 
-        Map<String, Object> map = searchService.adminPetSearch(keywords,publishType);
+        Map<String, Object> map = searchService.adminPetSearch(keywords, publishType);
         return ResultVOUtil.success(map);
     }
 

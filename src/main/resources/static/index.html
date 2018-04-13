@@ -21,7 +21,7 @@
         <img src="img/share-remind.jpg"/>
     </div>
     <!-- tabbar -->
-    <mc-tabbar page="index"></mc-tabbar>
+    <mc-tabbar page="index" :has-msg="showMsg"></mc-tabbar>
     <div class="content index-content " data-distance="100">
         <!-- banner -->
         <div class="index-banner">
@@ -264,7 +264,8 @@
         data: {
             //是否认证
             isAuthority: false,
-            dynamicArr: []
+            dynamicArr: [],
+            showMsg: false
         },
         mounted: function () {
             this.loadDynamicList();
@@ -281,7 +282,8 @@
                     data: null,
                     success: function (res) {
                         if (res.code === 1) {
-                            app.dynamicArr = res.data;
+                            app.showMsg = res.data.isShowMsgPoint;
+                            app.dynamicArr = res.data.list;
                             for (var i = 0; i < app.dynamicArr.length; i++) {
                                 app.dynamicArr[i].petImage = app.dynamicArr[i].petImage.split(";")[0];
                             }

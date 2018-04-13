@@ -245,11 +245,14 @@ public class UserServiceImpl implements UserService {
                 UserBasic curUserFrom = usersMap.get(detail.getReplierFrom());
                 UserBasic curUserAccept = usersMap.get(detail.getReplierAccept());
 
+                if (curUserAccept == null)
+                    return;
+
                 Map<String, String> detailMap = new HashMap<>();
                 detailMap.put("userIdFrom", detail.getReplierFrom());
                 detailMap.put("userIdFromName", curUserFrom.getNickName());
                 detailMap.put("userIdAccept", detail.getReplierAccept());
-                detailMap.put("userIdAcceptName", curUserAccept.getNickName());
+                detailMap.put("userIdAcceptName", curUserAccept.getNickName());//?
                 detailMap.put("content", detail.getContent());
 
                 detailList.add(detailMap);
@@ -330,6 +333,8 @@ public class UserServiceImpl implements UserService {
 
         return likeList;
     }
+
+
 
 
     /**
@@ -494,6 +499,23 @@ public class UserServiceImpl implements UserService {
             return time2.compareTo(time1);
         });
         return userIdFromName;
+    }
+
+    /**
+     * 判断当前用户数是否有动态消息
+     * @param openid
+     * @return
+     */
+    @Override
+    public boolean isShowMsgPoint(String openid) {
+
+        List<UserTalk> privateTalks = userTalkRepository.findByUserIdAcceptAndReadState(openid, ReadStateEnum.NOT_READ.getCode());
+        List<PublishTalk> publishTalks = publishTalkRepository.findByReplierAcceptAndReadState(openid, ReadStateEnum.NOT_READ.getCode());
+
+        if (privateTalks.isEmpty()  && publishTalks.isEmpty())
+            return false;
+
+        return true;
     }
 
 }

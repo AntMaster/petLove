@@ -4,6 +4,7 @@ import com.shumahe.pethome.DTO.UserDTO;
 import com.shumahe.pethome.Domain.UserApprove;
 import com.shumahe.pethome.Domain.UserBasic;
 import com.shumahe.pethome.Form.UserApproveForm;
+import com.shumahe.pethome.VO.ResultVO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +51,12 @@ public interface UserService {
      * @return
      */
     List<Map<String,String>> findMyDynamic(String openid, Integer type);
+
+
+    /**
+     * 查看当前用户是否有未读消息
+     */
+    boolean  isShowMsgPoint(String openid);
+
 
 }

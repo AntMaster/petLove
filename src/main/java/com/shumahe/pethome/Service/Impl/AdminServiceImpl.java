@@ -33,9 +33,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
+
+
 @Service
 public class AdminServiceImpl implements AdminService {
-
 
 
     @Autowired
@@ -62,7 +64,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     PublishViewRepository publishViewRepository;
-
 
 
     /**
@@ -93,6 +94,7 @@ public class AdminServiceImpl implements AdminService {
     /**
      * 显示 隐藏
      */
+
     @Override
     public PetPublish modifyShowState(Integer id, Integer publishState) {
         PetPublish publish = petPublishRepository.findById(id);
@@ -100,6 +102,7 @@ public class AdminServiceImpl implements AdminService {
             throw new PetHomeException(ResultEnum.RESULT_EMPTY);
         }
 
+        
         publish.setPublishState(publishState);
 
         PetPublish save = petPublishRepository.save(publish);
@@ -110,52 +113,53 @@ public class AdminServiceImpl implements AdminService {
      * 转发 || 关注
      */
     @Override
-    public List<Map<String, String>> findDynamic(Integer id, Integer dynamicType, Integer day) {
+    public Map<String, Object> findDynamic(Integer id, Integer dynamicType, Integer day) {
 
+        //发布信息
         PetPublish publish = petPublishRepository.findById(id);
 
         if (publish == null) {
             throw new PetHomeException(ResultEnum.RESULT_EMPTY);
         }
 
-
+        //动态
         Calendar now = Calendar.getInstance();
         now.set(Calendar.DATE, now.get(Calendar.DATE) - day);
-
         Date startTime = DateUtil.getStartTime(now.getTime());
         Date endTime = DateUtil.getEndTime(now.getTime());
-
         List<UserDynamic> dynamics = userDynamicRepository.findByPublishIdAndDynamicTypeAndCreateTimeBetweenOrderByCreateTimeDesc(id, dynamicType, startTime, endTime);
 
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("createDate", publish.getCreateTime().toString());//发布时间
+
         if (dynamics.isEmpty()) {
-            throw new PetHomeException(ResultEnum.RESULT_EMPTY);
+            return resMap;
         }
 
-        List<String> usersId = dynamics.stream().map(e -> e.getUserIdFrom()).distinct().collect(Collectors.toList());
-
+        List<String> usersId = dynamics.stream().map(e -> e.getUserIdFrom()).distinct().collect(toList());
         List<UserBasic> users = userBasicRepository.findByOpenIdIn(usersId);
-        List<Map<String, String>> res = new ArrayList<>();
 
 
-        dynamics.stream().forEach(dynamic -> {
+        List<Map<String, String>> collect = dynamics.stream().map(dynamic -> {
 
             Map<String, String> _temp = new HashMap<>();
             _temp.put("dynamicDate", dynamic.getCreateTime().toString().split(" ")[0]);
             _temp.put("dynamicTime", dynamic.getCreateTime().toString());
 
             users.stream().forEach(user -> {
-
                 if (dynamic.getUserIdFrom().trim().equals(user.getOpenId().trim())) {
                     _temp.put("nickName", user.getNickName());
                     _temp.put("userImage", user.getHeadImgUrl());
                     _temp.put("openId", user.getOpenId());
-
                 }
             });
-            res.add(_temp);
-        });
+            return _temp;
 
-        return res;
+        }).collect(toList());
+
+        resMap.put("dynamicData", collect);
+        return resMap;
     }
 
     /**
@@ -177,7 +181,7 @@ public class AdminServiceImpl implements AdminService {
             throw new PetHomeException(ResultEnum.RESULT_EMPTY);
         }
 
-        List<String> usersId = talks.stream().map(e -> e.getUserIdFrom()).distinct().collect(Collectors.toList());
+        List<String> usersId = talks.stream().map(e -> e.getUserIdFrom()).distinct().collect(toList());
 
         List<UserBasic> users = userBasicRepository.findByOpenIdIn(usersId);
 
@@ -247,7 +251,7 @@ public class AdminServiceImpl implements AdminService {
             throw new PetHomeException(ResultEnum.RESULT_EMPTY);
         }
 
-        List<String> usersId = talks.stream().map(e -> e.getReplierFrom()).distinct().collect(Collectors.toList());
+        List<String> usersId = talks.stream().map(e -> e.getReplierFrom()).distinct().collect(toList());
 
         List<UserBasic> users = userBasicRepository.findByOpenIdIn(usersId);
 
@@ -324,7 +328,7 @@ public class AdminServiceImpl implements AdminService {
             return res;
         }
 
-        List<String> userId = approves.stream().map(UserApprove::getUserId).distinct().collect(Collectors.toList());
+        List<String> userId = approves.stream().map(UserApprove::getUserId).distinct().collect(toList());
         List<UserBasic> users = userBasicRepository.findByOpenIdIn(userId);
         Map<String, UserBasic> userMap = users.stream().collect(Collectors.toMap(e -> e.getOpenId().trim(), Function.identity()));
 
@@ -335,7 +339,7 @@ public class AdminServiceImpl implements AdminService {
             userApproveDTO.setUserImage(userMap.get(e.getUserId()).getHeadImgUrl());
             return userApproveDTO;
 
-        }).collect(Collectors.toList());
+        }).collect(toList());
 
         res.put("content", userApprove);
         return res;
@@ -347,39 +351,58 @@ public class AdminServiceImpl implements AdminService {
      * @param id
      * @return
      */
+      /**
+      * @Description:
+      * @Param:  
+      * @return:  
+      * @Author: Mr.Wang 
+      * @Date: 2018/4/12 
+      */
+
     @Override
-    public List<Map<String, String>> findView(Integer id, Integer day) {
+    public Map<String, Object> findView(Integer id, Integer day) {
+
+        //当前发布
+        PetPublish pet = petPublishRepository.findById(id);
+
 
         Calendar now = Calendar.getInstance();
         now.set(Calendar.DATE, now.get(Calendar.DATE) - day);
 
+        //当天的浏览量
         Date startTime = DateUtil.getStartTime(now.getTime());
         Date endTime = DateUtil.getEndTime(now.getTime());
         List<PublishView> viewers = publishViewRepository.findByPublishIdAndViewTimeBetweenOrderByViewTimeDesc(id, startTime, endTime);
 
-        List<String> userIds = viewers.stream().map(PublishView::getViewer).distinct().collect(Collectors.toList());
+
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("publishDate", pet.getCreateTime().toString());
+        if (viewers.isEmpty()) {
+            return resMap;
+        }
+
+        List<String> userIds = viewers.stream().map(PublishView::getViewer).distinct().collect(toList());
         List<UserBasic> users = userBasicRepository.findByOpenIdIn(userIds);
         Map<String, UserBasic> usersMap = users.stream().collect(Collectors.toMap(e -> e.getOpenId().trim(), Function.identity()));
 
-        List<Map<String, String>> res = new ArrayList<>();
-        if (viewers.isEmpty())
-            return res;
 
-        viewers.forEach(e -> {
+        resMap.put("data", viewers.stream().map(e -> {
             UserBasic curUser = usersMap.get(e.getViewer());
             Map<String, String> _temp = new HashMap<>();
             _temp.put("viewerId", curUser.getOpenId());
             _temp.put("viewerName", curUser.getNickName());
             _temp.put("viewerImage", curUser.getHeadImgUrl());
             _temp.put("viewTime", e.getViewTime().toString());
-            res.add(_temp);
-        });
+            _temp.put("publishTime", pet.getCreateTime().toString());
+            return _temp;
+        }).collect(toList()));
 
-        return res;
+        return resMap;
     }
 
     @Autowired
     WechatController wechatController;
+
     /**
      * 认证审核
      *
@@ -408,7 +431,7 @@ public class AdminServiceImpl implements AdminService {
         userBasicRepository.save(userBasic);
 
         try {
-            wechatController.templateMsgPush(approve.getUserId(),approve);
+            wechatController.templateMsgPush(approve.getUserId(), approve);
         } catch (WxErrorException e) {
             e.printStackTrace();
         }

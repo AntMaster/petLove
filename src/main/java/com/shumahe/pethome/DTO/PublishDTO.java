@@ -167,9 +167,14 @@ public class PublishDTO {
     private Integer approveType = 0;
 
     /**
-     * 用户关注状态
+     * 当前用户关注状态
      */
     private boolean likeState;
+
+    /**
+     * 当前用户关注状态
+     */
+    private boolean isShowMsgPoint;
 
     /**
      * 发布显示状态

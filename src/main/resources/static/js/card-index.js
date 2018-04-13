@@ -54,6 +54,7 @@ var app = new Vue({
             sex == 0 ? this.cardFormModel.sex = 0 : this.cardFormModel.sex = 1;
         },
         selectContraceptionState: function (state) {
+
             this.cardFormModel.contraception = state;
         },
         //选择品种

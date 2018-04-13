@@ -9,7 +9,8 @@ var app = new Vue({
         petArr: [],
         params: '',
         varietyArrDataSource: '',
-        varietyName: ''
+        varietyName: '',
+        showMsg:false
     },
     updated: function () {
         //卡片自适应
@@ -25,7 +26,8 @@ var app = new Vue({
                 data: null,
                 success: function (res) {
                     if (res.code === 1) {
-                        app.petArr = res.data;
+                        app.petArr  = res.data.list;
+                        app.showMsg = res.data.showMsg;
                     }
                 }
             });

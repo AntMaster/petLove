@@ -14,6 +14,7 @@ import com.shumahe.pethome.Repository.*;
 import com.shumahe.pethome.Service.BaseService.PublishBaseService;
 import com.shumahe.pethome.Service.MessageService;
 import com.shumahe.pethome.Service.PublishService;
+import com.shumahe.pethome.Service.UserService;
 import com.shumahe.pethome.Util.ResultVOUtil;
 import com.shumahe.pethome.VO.ResultVO;
 import javafx.util.converter.DateStringConverter;
@@ -67,6 +68,9 @@ public class PublishServiceImpl implements PublishService {
     private UserDynamicRepository userDynamicRepository;
 
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 主页列表(动态+寻主+寻宠)
      *
@@ -105,6 +109,7 @@ public class PublishServiceImpl implements PublishService {
          */
         List<UserDynamic> likes = userDynamicRepository.findByUserIdFromAndDynamicTypeOrderByCreateTimeDesc(openId, DynamicTypeEnum.LIKE.getCode());
         int[] publishIds = likes.stream().mapToInt(e -> e.getPublishId()).distinct().toArray();
+
 
         publishDTOS.forEach(a -> Arrays.stream(publishIds).forEach(e -> {
             if (a.getId() == e) {

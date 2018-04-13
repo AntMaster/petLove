@@ -28,7 +28,7 @@ public interface AdminService {
     /**
      * 转发 关注
      */
-    List<Map<String, String>> findDynamic(Integer id, Integer dynamicType, Integer day);
+    Map<String, Object> findDynamic(Integer id, Integer dynamicType, Integer day);
 
 
     /**
@@ -64,7 +64,7 @@ public interface AdminService {
      * @param id
      * @return
      */
-    List<Map<String,String>> findView(Integer id,Integer day);
+    Map<String,Object> findView(Integer id,Integer day);
 
     /**
      * 认证审核

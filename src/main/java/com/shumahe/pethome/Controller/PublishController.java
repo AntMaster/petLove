@@ -11,6 +11,7 @@ import com.shumahe.pethome.Form.PublishPetForm;
 import com.shumahe.pethome.Repository.PetPublishRepository;
 import com.shumahe.pethome.Service.BaseService.PublishBaseService;
 import com.shumahe.pethome.Service.PublishService;
+import com.shumahe.pethome.Service.UserService;
 import com.shumahe.pethome.Util.ResultVOUtil;
 import com.shumahe.pethome.VO.PublishVO;
 import com.shumahe.pethome.VO.ResultVO;
@@ -35,6 +36,8 @@ public class PublishController {
     @Autowired
     PublishService publishService;
 
+    @Autowired
+    UserService userService;
 
     /**
      * 首页模块 ------> 动态 + 寻主 + 寻宠 三个列表
@@ -51,8 +54,15 @@ public class PublishController {
                                 @RequestParam(value = "size", defaultValue = "100") Integer size) {
 
         PageRequest request = new PageRequest(page, size);
-        List<PublishDTO> all = publishService.findAll(openId, publishType, request);
-        return ResultVOUtil.success(all);
+        List<PublishDTO> pubList = publishService.findAll(openId, publishType, request);
+
+        //是否有消息显示
+        boolean showMsgPoint = userService.isShowMsgPoint(openId);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("list", pubList);
+        res.put("isShowMsgPoint", showMsgPoint);
+        return ResultVOUtil.success(res);
 
     }
 
@@ -62,6 +72,15 @@ public class PublishController {
      * @param petForm
      * @param bindingResult
      * @return
+     */
+
+    /**
+     * 〈一句话功能简述〉
+     * 〈功能详细描述〉
+     * @param  [参数1] [in或out]  [参数1说明]
+     * @param  [参数2] [in或out]  [参数2说明]
+     * @return [返回类型说明]
+     * @exception/throws [违例类型] [违例说明]<code></code>
      */
     @PutMapping("/pet/{openId}")
     public ResultVO<Map<String, String>> create(@Valid PublishPetForm petForm, BindingResult bindingResult) {
@@ -115,8 +134,8 @@ public class PublishController {
      */
     @GetMapping("/{openId}")
     public ResultVO myPublish(@PathVariable("openId") String openId,
-                                      @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                      @RequestParam(value = "size", defaultValue = "10") Integer size) {
+                              @RequestParam(value = "page", defaultValue = "0") Integer page,
+                              @RequestParam(value = "size", defaultValue = "10") Integer size) {
 
         PageRequest pageRequest = new PageRequest(page, size);
         List<PublishDTO> myPublishList = publishService.findMyPublishList(openId, pageRequest);
@@ -148,7 +167,7 @@ public class PublishController {
      * @return
      */
     @GetMapping("/detail/{openId}")
-    public ResultVO petDetail(@PathVariable("openId") String openId,@RequestParam("id") Integer id) {
+    public ResultVO petDetail(@PathVariable("openId") String openId, @RequestParam("id") Integer id) {
 
         if (id == 0) {
             throw new PetHomeException(ResultEnum.PARAM_ERROR);
@@ -174,11 +193,12 @@ public class PublishController {
 
     @Autowired
     PublishBaseService publishBaseService;
+
     @GetMapping("test")
     public ResultVO test() {
 
-        Map<Integer,Map<Integer,PetVariety>>  petVariety = publishBaseService.findPetVariety();
-        return  ResultVOUtil.success(petVariety);
+        Map<Integer, Map<Integer, PetVariety>> petVariety = publishBaseService.findPetVariety();
+        return ResultVOUtil.success(petVariety);
 
     }
 

@@ -17,6 +17,7 @@ import com.shumahe.pethome.Repository.UserPetAlbumRepository;
 import com.shumahe.pethome.Repository.UserPetPhotoRepository;
 import com.shumahe.pethome.Repository.UserPetRepository;
 import com.shumahe.pethome.Service.PetService;
+import com.shumahe.pethome.Service.UserService;
 import com.shumahe.pethome.Util.ResultVOUtil;
 import com.shumahe.pethome.VO.ResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +30,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.*;
@@ -64,6 +62,9 @@ public class PetController {
     @Autowired
     private PetVarietyRepository petVarietyRepository;
 
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 新增宠卡1 2
@@ -202,7 +203,6 @@ public class PetController {
     public ResultVO photoModify(@RequestParam("albumId") Integer albumId,
                                 @RequestParam(value = "name", defaultValue = "EMPTY") String name) {
 
-
         if (name.equals("EMPTY")) {
 
             throw new PetHomeException(ResultEnum.PARAM_ERROR.getCode(), "相册名称不能为空");
@@ -247,7 +247,12 @@ public class PetController {
             throw new PetHomeException(ResultEnum.PARAM_ERROR);
         }
         List<UserPetDTO> userPets = petService.petList(openId);
-        return ResultVOUtil.success(userPets);
+
+        Map<String,Object> res = new HashMap<>();
+        res.put("list",userPets);
+        res.put("showMsg",userService.isShowMsgPoint(openId));
+
+        return ResultVOUtil.success(res);
     }
 
     /**

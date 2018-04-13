@@ -9,7 +9,7 @@ Vue.component('mc-tabbar', {
             publish: false
         }
     },
-    props: ['page', 'lv'],
+    props: ['page', 'lv','hasMsg'],
     template: '<div class="mc-tabbar">' +
     '<div class="left">' +
     '<a :href="toIndex()" class="item external" :class="{active:index}">' +
@@ -27,7 +27,7 @@ Vue.component('mc-tabbar', {
     '<div class="icon"><img :src="tabbarIcon(4)" /></div><span  class="name">宠卡</span>' +
     '</a>' +
     '<a :href="toMine()" class="item external" :class="{active:mine}">' +
-    '<div class="icon"><img :src="tabbarIcon(5)" /></div><span  class="name">我的</span>' +
+    '<div class="icon"><img :src="tabbarIcon(5)" /></div><span  class="name">我的</span><span :class="{badge:hasMsg }"></span>' +
     '</a>' +
     '</div>' +
     '</div>',

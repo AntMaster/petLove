@@ -14,6 +14,7 @@ Vue.use(VueBaiduMap.default, {
 var app = new Vue({
     el: "#searchPage",
     data: {
+        showMsg : false,
         testPoint: "{lng: 30.4660040000, lat: 114.4239750000}",
         //1：寻宠，2：寻主
         publishType: -1,
@@ -79,12 +80,13 @@ var app = new Vue({
         init: function () {
             $.showIndicator();
             $.ajax({
-                url: "/pethome/search/init",
+                url: "/pethome/search/init/"  + GetQueryString("openid"),
                 dataType: "json",
                 type: "GET",
                 success: function (res) {
                     if (res.code == 1) {
-                        app.annotationList = res.data;
+                        app.annotationList = res.data.list;
+                        app.showMsg = res.data.showMsgPoint;
                         //配置一个数组用于控制大头针状态
                         app.confPinIcon();
                     }
